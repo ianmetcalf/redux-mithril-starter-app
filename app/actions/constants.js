@@ -1,0 +1,6 @@
+export const SET_FORM_FOCUS = 'SET_FORM_FOCUS';
+export const SET_FORM_VALUES = 'SET_FORM_VALUES';
+
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
+export const RESET_MESSAGES = 'RESET_MESSAGES';
