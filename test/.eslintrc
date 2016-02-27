@@ -1,0 +1,11 @@
+{
+  "env": {
+    "mocha": true
+  },
+
+  "rules": {
+    "strict": 2,
+    "func-names": 0,
+    "prefer-arrow-callback": 0
+  }
+}
