@@ -1,6 +1,12 @@
 {
   "extends": "airbnb",
 
+  "settings": {
+    "react": {
+      "pragma": "m"
+    }
+  },
+
   "env": {
     "node": true
   },

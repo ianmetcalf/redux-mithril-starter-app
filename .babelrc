@@ -2,6 +2,10 @@
   "presets": ["es2015"],
 
   "plugins": [
+    ["mjsx", {
+      "jsxCompliant": false,
+      "warnDeprecatedHtml": true
+    }],
     "transform-object-rest-spread"
   ]
 }
