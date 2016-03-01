@@ -1,5 +1,7 @@
 # Redux Mithril Starter App
 
+[![Join the chat at https://gitter.im/ianmetcalf/redux-mithril-starter-app](https://badges.gitter.im/ianmetcalf/redux-mithril-starter-app.svg)](https://gitter.im/ianmetcalf/redux-mithril-starter-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Up and Running Locally
 
 * Install nvm
