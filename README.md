@@ -1,6 +1,8 @@
 # Redux Mithril Starter App
 
-[![Join the chat at https://gitter.im/ianmetcalf/redux-mithril-starter-app](https://badges.gitter.im/ianmetcalf/redux-mithril-starter-app.svg)](https://gitter.im/ianmetcalf/redux-mithril-starter-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Travis](https://img.shields.io/travis/ianmetcalf/redux-mithril-starter-app/master.svg)](https://travis-ci.org/ianmetcalf/redux-mithril-starter-app)
+[![VersionEye](https://img.shields.io/versioneye/d/user/projects/56d5a3a10a4ec1276e4b06b4.svg)](https://www.versioneye.com/user/projects/56d5a3a10a4ec1276e4b06b4)
+[![Gitter](https://img.shields.io/gitter/room/ianmetcalf/redux-mithril-starter-app.svg)](https://gitter.im/ianmetcalf/redux-mithril-starter-app)
 
 ## Up and Running Locally
 
