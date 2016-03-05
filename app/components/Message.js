@@ -1,21 +1,21 @@
 import m from 'mithril';
 
 const Message = {
-  controller({id, onRemove}) {
+  controller({id, onClose}) {
     return {
-      handleClickRemove() {
-        onRemove(id);
+      handleClose() {
+        onClose(id);
       },
     };
   },
 
-  view(ctrl, {id, type, body}) {
+  view(ctrl, {type, body}) {
     return (
-      <div key={id} className={`message-${ type }`}>
-        <button className="message-remove-button"
+      <div className={`message-${ type }`}>
+        <button className="message-close-button"
           type="button"
           role="button"
-          onclick={ctrl.handleClickRemove}
+          onclick={ctrl.handleClose}
         >&times;</button>
         <div className="message-body">{body}</div>
       </div>

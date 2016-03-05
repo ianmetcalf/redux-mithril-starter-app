@@ -1,7 +1,7 @@
 import m from 'mithril';
 import capitalize from 'lodash/capitalize';
 import {getFormValues, getMessages} from '../selectors';
-import {setFormValues, addMessage, removeMessage} from '../actions';
+import {setFormValues, showMessage, clearMessage} from '../actions';
 
 const MessageForm = {
   controller(attrs) {
@@ -11,6 +11,7 @@ const MessageForm = {
       dispatch(setFormValues('message', {
         message: '',
         type: 'info',
+        duration: 0,
       }));
     }
 
@@ -18,11 +19,11 @@ const MessageForm = {
       getState,
 
       handleChange(e = event) {
-        const target = e.currentTarget || this;
+        const {name, value} = e.currentTarget || this;
 
         const values = {
           ...getFormValues(getState(), 'message'),
-          [target.name]: target.value,
+          [name]: name === 'duration' ? parseInt(value, 10) * 1000 : value,
         };
 
         dispatch(setFormValues('message', values));
@@ -31,10 +32,10 @@ const MessageForm = {
       handleSubmit(e = event) {
         e.preventDefault();
 
-        const {message, type} = getFormValues(getState(), 'message');
+        const {message, type, duration} = getFormValues(getState(), 'message');
 
         if (message) {
-          dispatch(addMessage({body: message, type}));
+          dispatch(showMessage({body: message, type, duration}));
         }
       },
 
@@ -43,7 +44,7 @@ const MessageForm = {
         const last = messages[messages.length - 1];
 
         if (last) {
-          dispatch(removeMessage(last.id));
+          dispatch(clearMessage(last.id));
         }
       },
     };
@@ -61,6 +62,16 @@ const MessageForm = {
               value={values.message}
               onchange={ctrl.handleChange}
             />
+          </label>
+        </div>
+        <div>
+          <label>
+            Duration
+            <input type="number" name="duration"
+              value={values.duration / 1000}
+              onchange={ctrl.handleChange}
+            />
+            Sec
           </label>
         </div>
         <div>

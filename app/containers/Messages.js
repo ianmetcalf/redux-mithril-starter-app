@@ -1,6 +1,6 @@
 import m from 'mithril';
 import {getMessages} from '../selectors';
-import {removeMessage} from '../actions';
+import {clearMessage} from '../actions';
 import Message from '../components/Message';
 
 const Messages = {
@@ -10,8 +10,8 @@ const Messages = {
     return {
       getState,
 
-      handleRemove(id) {
-        dispatch(removeMessage(id));
+      handleClose(id) {
+        dispatch(clearMessage(id));
       },
     };
   },
@@ -22,7 +22,7 @@ const Messages = {
     return (
       <div className="message-container">
       {messages.map(item =>
-        <Message {...item} onRemove={ctrl.handleRemove} />
+        <Message key={item.id} {...item} onClose={ctrl.handleClose} />
       )}
       </div>
     );

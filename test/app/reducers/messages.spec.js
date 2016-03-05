@@ -1,6 +1,6 @@
 import expect from 'expect';
 import freeze from 'deep-freeze';
-import {ADD_MESSAGE, REMOVE_MESSAGE, RESET_MESSAGES} from '../../../app/actions';
+import {SHOW_MESSAGE, CLEAR_MESSAGE, RESET_MESSAGES} from '../../../app/actions';
 import reducer from '../../../app/reducers/messages';
 
 describe('messages reducer', function () {
@@ -8,66 +8,81 @@ describe('messages reducer', function () {
     expect(reducer(undefined, {})).toEqual([]);
   });
 
-  context('when called with ADD_MESSAGE action', function () {
-    it('adds message', function () {
+  context('when called with SHOW_MESSAGE action', function () {
+    it('adds the message if it does not exist', function () {
+      const state = freeze([]);
+
+      const action = {
+        type: SHOW_MESSAGE,
+        payload: {
+          id: 'message_1',
+          body: 'Some message',
+          type: 'success',
+        },
+      };
+
+      expect(reducer(state, action)).toEqual([
+        {
+          id: 'message_1',
+          body: 'Some message',
+          type: 'success',
+        },
+      ]);
+    });
+
+    it('replaces the message if it does exist', function () {
       const state = freeze([
         {
-          id: 1,
+          id: 'message_1',
           body: 'Some message',
           type: 'success',
         },
       ]);
 
       const action = {
-        type: ADD_MESSAGE,
+        type: SHOW_MESSAGE,
         payload: {
-          body: 'Some other message',
-          type: 'error',
-          prop: 'some prop',
+          id: 'message_1',
+          body: 'Some updated message',
+          type: 'success',
         },
       };
 
       expect(reducer(state, action)).toEqual([
         {
-          id: 1,
-          body: 'Some message',
+          id: 'message_1',
+          body: 'Some updated message',
           type: 'success',
-        },
-        {
-          id: 2,
-          body: 'Some other message',
-          type: 'error',
-          prop: 'some prop',
         },
       ]);
     });
   });
 
-  context('when called with REMOVE_MESSAGE action', function () {
+  context('when called with CLEAR_MESSAGE action', function () {
     it('removes the message if it exists', function () {
       const state = freeze([
         {
-          id: 1,
+          id: 'message_1',
           body: 'Some message',
           type: 'success',
         },
         {
-          id: 2,
+          id: 'message_2',
           body: 'Some other message',
           type: 'error',
         },
       ]);
 
       const action = {
-        type: REMOVE_MESSAGE,
+        type: CLEAR_MESSAGE,
         payload: {
-          id: 2,
+          id: 'message_2',
         },
       };
 
       expect(reducer(state, action)).toEqual([
         {
-          id: 1,
+          id: 'message_1',
           body: 'Some message',
           type: 'success',
         },
@@ -77,16 +92,16 @@ describe('messages reducer', function () {
     it('ignores action if message does not exist', function () {
       const state = freeze([
         {
-          id: 1,
+          id: 'message_1',
           body: 'Some message',
           type: 'success',
         },
       ]);
 
       const action = {
-        type: REMOVE_MESSAGE,
+        type: CLEAR_MESSAGE,
         payload: {
-          id: 2,
+          id: 'message_2',
         },
       };
 
@@ -98,12 +113,12 @@ describe('messages reducer', function () {
     it('removes all messages', function () {
       const state = freeze([
         {
-          id: 1,
+          id: 'message_1',
           body: 'Some message',
           type: 'success',
         },
         {
-          id: 2,
+          id: 'message_2',
           body: 'Some other message',
           type: 'error',
         },

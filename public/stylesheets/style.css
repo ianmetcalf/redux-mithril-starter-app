@@ -102,7 +102,7 @@ body > header {
   text-decoration: none;
 }
 
-.message-container .message-remove-button {
+.message-container .message-close-button {
   position: relative;
   right: -0.3em;
   top: -0.3em;
@@ -117,8 +117,8 @@ body > header {
   filter: alpha(opacity=80);
 }
 
-.message-container .message-remove-button:hover,
-.message-container .message-remove-button:focus {
+.message-container .message-close-button:hover,
+.message-container .message-close-button:focus {
   color: #000000;
   text-decoration: none;
   cursor: pointer;
@@ -127,7 +127,7 @@ body > header {
   filter: alpha(opacity=40);
 }
 
-.message-container button.message-remove-button {
+.message-container button.message-close-button {
   padding: 0;
   cursor: pointer;
   background: transparent;
@@ -141,7 +141,7 @@ body > header {
     padding: 8px;
     width: 11em;
   }
-  .message-container .message-remove-button {
+  .message-container .message-close-button {
     right: -0.2em;
     top: -0.2em;
   }
@@ -151,7 +151,7 @@ body > header {
     padding: 8px;
     width: 18em;
   }
-  .message-container .message-remove-button {
+  .message-container .message-close-button {
     right: -0.2em;
     top: -0.2em;
   }

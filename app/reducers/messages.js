@@ -1,18 +1,12 @@
 import {createReducer} from './helpers';
-import {ADD_MESSAGE, REMOVE_MESSAGE, RESET_MESSAGES} from '../actions';
+import {SHOW_MESSAGE, CLEAR_MESSAGE, RESET_MESSAGES} from '../actions';
 
 const messages = createReducer([], {
-  [ADD_MESSAGE](state, action) {
-    return [
-      ...state,
-      {
-        id: state.reduce((memo, item) => Math.max(item.id, memo), -1) + 1,
-        ...action.payload,
-      },
-    ];
+  [SHOW_MESSAGE](state, action) {
+    return [...state.filter(item => item.id !== action.payload.id), action.payload];
   },
 
-  [REMOVE_MESSAGE](state, action) {
+  [CLEAR_MESSAGE](state, action) {
     return state.filter(item => item.id !== action.payload.id);
   },
 

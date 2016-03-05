@@ -1,23 +1,40 @@
-import {ADD_MESSAGE, REMOVE_MESSAGE, RESET_MESSAGES} from './constants';
+import uniqueId from 'lodash/uniqueId';
+import {SHOW_MESSAGE, CLEAR_MESSAGE, RESET_MESSAGES} from './constants';
 
-export function addMessage({body = '', type = 'success', ...attrs} = {}) {
+export function showMessage({body = '', type = 'success', duration, ...attrs} = {}) {
   if (!body.length) throw new Error('Must specify a body for message');
 
-  return {
-    type: ADD_MESSAGE,
-    payload: {
-      body,
-      type,
-      ...attrs,
-    },
+  return (dispatch, getState) => {
+    const id = attrs.id || uniqueId('_message_');
+
+    dispatch({
+      type: SHOW_MESSAGE,
+      payload: {
+        ...attrs,
+        id,
+        body,
+        type,
+      },
+    });
+
+    return new Promise((resolve, reject) => {
+      if (duration > 0) {
+        setTimeout(() => {
+          dispatch(clearMessage(id));
+          resolve();
+        }, duration);
+      } else {
+        resolve();
+      }
+    });
   };
 }
 
-export function removeMessage(id = null) {
+export function clearMessage(id = null) {
   if (id === null) throw new Error('Must specify an id to remove message');
 
   return {
-    type: REMOVE_MESSAGE,
+    type: CLEAR_MESSAGE,
     payload: {
       id,
     },
