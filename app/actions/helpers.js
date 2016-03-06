@@ -26,9 +26,7 @@ export function createFetchAction(type = null, {
   }
 
   return (dispatch, getState) => {
-    if (isPending(getState(), id)) {
-      return Promise.reject({message: `A pending ${ type } action already exists`});
-    }
+    if (isPending(getState(), id)) return Promise.resolve();
 
     dispatch({
       type,

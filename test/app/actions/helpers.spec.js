@@ -353,9 +353,7 @@ describe('action helpers', function () {
       beforeEach('dispatch #createFetchAction() action', function () {
         return store.dispatch(createFetchAction(SOME_ACTION, {
           url: '/api/users',
-        }))
-
-        .catch(() => Promise.resolve());
+        }));
       });
 
       it('does not create actions', function () {
