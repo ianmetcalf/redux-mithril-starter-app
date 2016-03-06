@@ -57,7 +57,7 @@
     "babel-eslint": "^5.0.0",
     "babel-register": "^6.5.2",
     "deep-freeze": "0.0.1",
-    "eslint": "^2.2.0",
+    "eslint": "~2.2.0",
     "eslint-config-airbnb": "^6.0.2",
     "eslint-plugin-react": "^4.1.0",
     "expect": "^1.14.0",
