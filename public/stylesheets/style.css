@@ -19,6 +19,7 @@ body > header {
 }
 
 
+.repo-stats,
 .message-form {
   width: 300px;
   margin: 20px;
@@ -29,6 +30,36 @@ body > header {
   border-radius: 6px;
   background-color: #fff;
 }
+
+
+.repo-stats .loading {
+  margin: 0 6px;
+}
+
+.repo-stats ul {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.repo-stats li {
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.repo-stats li .stat-value {
+  min-width: 10px;
+  margin: 0 6px;
+  padding: 3px 6px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background-color: #666;
+}
+
 
 .message-form > div {
   padding-bottom: 12px;
