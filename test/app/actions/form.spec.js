@@ -1,4 +1,5 @@
 import expect from 'expect';
+import {isFSA} from 'flux-standard-action';
 import {SET_FORM_FOCUS, SET_FORM_VALUES} from '../../../app/actions/constants';
 import {setFormFocus, setFormValues} from '../../../app/actions/form';
 
@@ -19,6 +20,10 @@ describe('form actions', function () {
             focus: 'some-selector',
           },
         });
+      });
+
+      it('creates FSA compliant action', function () {
+        expect(isFSA(setFormFocus('some form', 'some-selector'))).toBe(true);
       });
     });
   });
@@ -41,6 +46,10 @@ describe('form actions', function () {
             },
           },
         });
+      });
+
+      it('creates FSA compliant action', function () {
+        expect(isFSA(setFormValues('some form', {prop: 'some prop'}))).toBe(true);
       });
     });
   });

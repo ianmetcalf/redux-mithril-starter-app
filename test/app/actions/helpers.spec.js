@@ -1,6 +1,7 @@
 import expect from 'expect';
 import fetchMock from 'fetch-mock';
 import {Schema, arrayOf} from 'normalizr';
+import {isFSA} from 'flux-standard-action';
 import {createThunkStore} from './helpers';
 import {createFetchAction} from '../../../app/actions/helpers';
 
@@ -91,6 +92,10 @@ describe('action helpers', function () {
           },
         });
       });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+      });
     });
 
     context('when called with method', function () {
@@ -141,6 +146,10 @@ describe('action helpers', function () {
           },
         });
       });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+      });
     });
 
     context('when called with id', function () {
@@ -185,6 +194,10 @@ describe('action helpers', function () {
             },
           },
         });
+      });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
       });
     });
 
@@ -234,6 +247,10 @@ describe('action helpers', function () {
             },
           },
         });
+      });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
       });
     });
 
@@ -293,6 +310,10 @@ describe('action helpers', function () {
           },
         });
       });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+      });
     });
 
     context('when server returns error', function () {
@@ -338,6 +359,10 @@ describe('action helpers', function () {
             },
           },
         });
+      });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
       });
     });
 

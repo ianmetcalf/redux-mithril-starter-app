@@ -1,4 +1,5 @@
 import expect from 'expect';
+import {isFSA} from 'flux-standard-action';
 import {createThunkStore} from './helpers';
 import {SHOW_MESSAGE, CLEAR_MESSAGE, RESET_MESSAGES} from '../../../app/actions/constants';
 import {showMessage, clearMessage, resetMessages} from '../../../app/actions/message';
@@ -43,6 +44,10 @@ describe('message actions', function () {
           },
         });
       });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+      });
     });
 
     context('when called with type', function () {
@@ -63,6 +68,10 @@ describe('message actions', function () {
             type: 'error',
           },
         });
+      });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
       });
     });
 
@@ -86,6 +95,10 @@ describe('message actions', function () {
           },
         });
       });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+      });
     });
 
     context('when called without duration', function () {
@@ -97,6 +110,10 @@ describe('message actions', function () {
 
       it('does not clear the message', function () {
         expect(store._dispatch.calls.length).toEqual(1);
+      });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
       });
     });
 
@@ -128,6 +145,10 @@ describe('message actions', function () {
           },
         });
       });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+      });
     });
   });
 
@@ -147,6 +168,10 @@ describe('message actions', function () {
           },
         });
       });
+
+      it('creates FSA compliant action', function () {
+        expect(isFSA(clearMessage('message_id'))).toBe(true);
+      });
     });
   });
 
@@ -155,6 +180,10 @@ describe('message actions', function () {
       expect(resetMessages()).toEqual({
         type: RESET_MESSAGES,
       });
+    });
+
+    it('creates FSA compliant action', function () {
+      expect(isFSA(resetMessages())).toBe(true);
     });
   });
 });
