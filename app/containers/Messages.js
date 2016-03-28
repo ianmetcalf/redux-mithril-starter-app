@@ -1,30 +1,29 @@
 import m from 'mithril';
+import classNames from 'classnames';
+import MessagesComponent from '../components/Messages';
 import {getMessages} from '../selectors';
 import {clearMessage} from '../actions';
-import Message from '../components/Message';
+import styles from './style.css';
 
 const Messages = {
   controller(attrs) {
-    const {getState, dispatch} = attrs.store;
+    const {dispatch} = attrs.store;
 
     return {
-      getState,
-
       handleClose(id) {
         dispatch(clearMessage(id));
       },
     };
   },
 
-  view(ctrl) {
-    const messages = getMessages(ctrl.getState());
+  view(ctrl, {store, className}) {
+    const state = store.getState();
 
     return (
-      <div className="message-container">
-      {messages.map(item =>
-        <Message key={item.id} {...item} onClose={ctrl.handleClose} />
-      )}
-      </div>
+      <MessagesComponent className={classNames(styles.messages, className)}
+        messages={getMessages(state)}
+        onClose={ctrl.handleClose}
+      />
     );
   },
 };

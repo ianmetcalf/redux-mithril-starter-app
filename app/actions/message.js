@@ -22,7 +22,7 @@ export function showMessage({body = '', type = 'success', duration, ...attrs} = 
         setTimeout(() => {
           dispatch(clearMessage(id));
           resolve();
-        }, duration);
+        }, duration * 1000);
       } else {
         resolve();
       }

@@ -1,14 +1,18 @@
 import m from 'mithril';
-import capitalize from 'lodash/capitalize';
+import classNames from 'classnames';
+import MessageFormComponent from '../components/MessageForm';
 import {getFormValues, getMessages} from '../selectors';
 import {setFormValues, showMessage, clearMessage} from '../actions';
+import styles from './style.css';
+
+const FORM_ID = 'message';
 
 const MessageForm = {
   controller(attrs) {
     const {getState, dispatch} = attrs.store;
 
-    if (!getFormValues(getState(), 'message')) {
-      dispatch(setFormValues('message', {
+    if (!getFormValues(getState(), FORM_ID)) {
+      dispatch(setFormValues(FORM_ID, {
         message: '',
         type: 'info',
         duration: 0,
@@ -16,23 +20,15 @@ const MessageForm = {
     }
 
     return {
-      getState,
-
-      handleChange(e = event) {
-        const {name, value} = e.currentTarget || this;
-
-        const values = {
-          ...getFormValues(getState(), 'message'),
-          [name]: name === 'duration' ? parseInt(value, 10) * 1000 : value,
-        };
-
-        dispatch(setFormValues('message', values));
+      handleChange(name, value) {
+        dispatch(setFormValues(FORM_ID, {
+          ...getFormValues(getState(), FORM_ID),
+          [name]: value,
+        }));
       },
 
-      handleSubmit(e = event) {
-        e.preventDefault();
-
-        const {message, type, duration} = getFormValues(getState(), 'message');
+      handleSubmit() {
+        const {message, type, duration} = getFormValues(getState(), FORM_ID);
 
         if (message) {
           dispatch(showMessage({body: message, type, duration}));
@@ -50,52 +46,16 @@ const MessageForm = {
     };
   },
 
-  view(ctrl) {
-    const values = getFormValues(ctrl.getState(), 'message');
+  view(ctrl, {store, className}) {
+    const state = store.getState();
 
     return (
-      <form className="message-form">
-        <div>
-          <label>
-            Message
-            <input type="text" name="message"
-              value={values.message}
-              onchange={ctrl.handleChange}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Duration
-            <input type="number" name="duration"
-              value={values.duration / 1000}
-              onchange={ctrl.handleChange}
-            />
-            Sec
-          </label>
-        </div>
-        <div>
-        {['info', 'success', 'warning', 'error'].map(type =>
-          <label>
-            <input type="radio" name="type" value={type}
-              checked={values.type === type}
-              onchange={ctrl.handleChange}
-            />
-            {capitalize(type)}
-          </label>
-        )}
-        </div>
-        <div>
-          <button
-            type="submit"
-            onclick={ctrl.handleSubmit}
-          >Show</button>
-          <button
-            type="button"
-            onclick={ctrl.handleClearLast}
-          >Clear Last</button>
-        </div>
-      </form>
+      <MessageFormComponent className={classNames(styles.messageForm, className)}
+        values={getFormValues(state, FORM_ID) || {}}
+        onChange={ctrl.handleChange}
+        onSubmit={ctrl.handleSubmit}
+        onClearLast={ctrl.handleClearLast}
+      />
     );
   },
 };

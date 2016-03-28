@@ -1,0 +1,12 @@
+.container > div {
+  padding-bottom: 12px;
+}
+
+.container > div:last-child {
+  padding-bottom: 0;
+  text-align: right;
+}
+
+.container input {
+  margin: 0 6px;
+}

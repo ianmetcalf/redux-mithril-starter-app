@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 
-const assetHelper = require('./views/helpers/asset');
+const viewHelpers = require('./views/helpers');
 const routes = require('./routes/index');
 
 const app = express();
@@ -17,7 +17,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // Only use the hashed assets when not running in development
-app.use(assetHelper(app.get('env') !== 'development' && require('../assets.json')));
+if (app.get('env') !== 'development') {
+  viewHelpers.assets(require('../assets.json'));
+}
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

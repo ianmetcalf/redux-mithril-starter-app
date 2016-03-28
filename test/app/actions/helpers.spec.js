@@ -329,9 +329,7 @@ describe('action helpers', function () {
       beforeEach('dispatch #createFetchAction() action', function () {
         return store.dispatch(createFetchAction(SOME_ACTION, {
           url: '/api/users/1',
-        }))
-
-        .catch(() => Promise.resolve());
+        }));
       });
 
       it('creates pending fetch action', function () {
@@ -351,6 +349,97 @@ describe('action helpers', function () {
           error: true,
           payload: {
             message: 'Not Found',
+          },
+          meta: {
+            pending: {
+              id: 'GET /api/users/1',
+              completed: true,
+            },
+          },
+        });
+      });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+      });
+    });
+
+    context('when server returns non-json response', function () {
+      beforeEach('mock GET /api/users/1', function () {
+        fetchMock.mock('/api/users/1', 'GET', {
+          body: 'Error',
+          status: 500,
+        });
+      });
+
+      beforeEach('dispatch #createFetchAction() action', function () {
+        return store.dispatch(createFetchAction(SOME_ACTION, {
+          url: '/api/users/1',
+        }));
+      });
+
+      it('creates pending fetch action', function () {
+        expect(store._dispatch).toHaveBeenCalledWith({
+          type: SOME_ACTION,
+          meta: {
+            pending: {
+              id: 'GET /api/users/1',
+            },
+          },
+        });
+      });
+
+      it('creates completed fetch action with error', function () {
+        expect(store._dispatch).toHaveBeenCalledWith({
+          type: SOME_ACTION,
+          error: true,
+          payload: {
+            message: 'Server Error',
+          },
+          meta: {
+            pending: {
+              id: 'GET /api/users/1',
+              completed: true,
+            },
+          },
+        });
+      });
+
+      it('creates FSA compliant actions', function () {
+        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+      });
+    });
+
+    context('when server is not available', function () {
+      beforeEach('mock GET /api/users/1', function () {
+        fetchMock.mock('/api/users/1', 'GET', {
+          throws: new Error(),
+        });
+      });
+
+      beforeEach('dispatch #createFetchAction() action', function () {
+        return store.dispatch(createFetchAction(SOME_ACTION, {
+          url: '/api/users/1',
+        }));
+      });
+
+      it('creates pending fetch action', function () {
+        expect(store._dispatch).toHaveBeenCalledWith({
+          type: SOME_ACTION,
+          meta: {
+            pending: {
+              id: 'GET /api/users/1',
+            },
+          },
+        });
+      });
+
+      it('creates completed fetch action with error', function () {
+        expect(store._dispatch).toHaveBeenCalledWith({
+          type: SOME_ACTION,
+          error: true,
+          payload: {
+            message: 'Network Error',
           },
           meta: {
             pending: {

@@ -42,24 +42,26 @@ export function createFetchAction(type = null, {
       ...opts,
     })
 
-    .then(resp => resp.json().then(json => {
-      const payload = resp.ok && schema ? normalize(json, schema) : json;
-
-      dispatch({
-        type,
-        error: !resp.ok,
-        payload,
-        meta: {
-          ...meta,
-          pending: {id, completed: true},
-        },
-      });
-
-      return resp.ok ? json : Promise.reject(json);
-    }), err => dispatch({
-      type,
+    // Normalize the result of the fetch and catch error conditions
+    .then(resp => resp.json().then(json => ({
+      error: !resp.ok,
+      payload: json,
+    }), () => ({
       error: true,
-      payload: err,
+      payload: {
+        message: 'Server Error',
+      },
+    })), () => ({
+      error: true,
+      payload: {
+        message: 'Network Error',
+      },
+    }))
+
+    .then(({error, payload}) => dispatch({
+      type,
+      error,
+      payload: schema && !error ? normalize(payload, schema) : payload,
       meta: {
         ...meta,
         pending: {id, completed: true},

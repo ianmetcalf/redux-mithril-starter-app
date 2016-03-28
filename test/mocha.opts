@@ -1,2 +1,2 @@
---compilers js:babel-register
+--compilers js:babel-register,css:./test/helpers/stubStyles.js
 --reporter spec
