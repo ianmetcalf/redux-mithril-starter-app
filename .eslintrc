@@ -38,9 +38,6 @@
     "no-this-before-super": 2,
     "template-curly-spacing": [2, "always"],
 
-    "react/jsx-no-bind": [2, {
-      "allowArrowFunctions": true
-    }],
     "react/no-unknown-property": 0,
     "react/prop-types": 0
   }
