@@ -1,0 +1,16 @@
+.repo-stats,
+.message-form {
+  width: 300px;
+  margin: 20px;
+  padding: 12px;
+  border: 1px solid #666;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.messages {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 999999;
+}

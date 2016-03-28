@@ -6,7 +6,7 @@ import RepoStats from './RepoStats';
 const Root = {
   view(ctrl, attrs) {
     return (
-      <div className="root-container">
+      <div>
         <RepoStats {...attrs} repo="ianmetcalf/redux-mithril-starter-app" />
         <MessageForm {...attrs} />
         <Messages {...attrs} />
