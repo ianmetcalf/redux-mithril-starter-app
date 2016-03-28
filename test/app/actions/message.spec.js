@@ -122,7 +122,7 @@ describe('message actions', function () {
         return store.dispatch(showMessage({
           id: 'message_id',
           body: 'Some message',
-          duration: 100,
+          duration: 0.1,
         }));
       });
 

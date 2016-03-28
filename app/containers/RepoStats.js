@@ -1,5 +1,5 @@
 import m from 'mithril';
-import {getEntityById} from '../selectors';
+import {getEntityById, isPending} from '../selectors';
 import {fetchRepo, showMessage} from '../actions';
 
 const FETCH_RATE = 90 * 1000;
@@ -11,15 +11,17 @@ const RepoStats = {
     let timeout = null;
 
     function nextFetch() {
-      dispatch(fetchRepo(attrs.repo))
+      dispatch(fetchRepo(attrs.repo)).then(resp => {
+        if (resp.error) {
+          dispatch(showMessage({
+            body: 'Failed to fetch repo',
+            type: 'error',
+            duration: 10,
+          }));
+        }
 
-      .then(() => {
         timeout = setTimeout(nextFetch, FETCH_RATE);
-      }, () => dispatch(showMessage({
-        body: 'Failed to fetch repo',
-        type: 'error',
-        duration: 60 * 1000,
-      })));
+      });
     }
 
     nextFetch();
@@ -37,11 +39,13 @@ const RepoStats = {
   },
 
   view(ctrl, attrs) {
-    const repo = getEntityById(ctrl.getState(), 'repos', attrs.repo);
+    const state = ctrl.getState();
+    const repo = getEntityById(state, 'repos', attrs.repo);
+    const loading = !repo && isPending(state, attrs.repo);
 
     return (
       <div className="repo-stats">Repo:
-        {!repo ? <span className="loading">Loading...</span> :
+        {!repo ? <span className="loading">{loading ? 'Loading...' : 'No information'}</span> :
           <ul>
             <li>
               <span className="stat-value">{repo.forks_count}</span>

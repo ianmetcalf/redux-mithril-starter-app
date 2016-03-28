@@ -23,7 +23,7 @@ const MessageForm = {
 
         const values = {
           ...getFormValues(getState(), 'message'),
-          [name]: name === 'duration' ? parseInt(value, 10) * 1000 : value,
+          [name]: name === 'duration' ? parseInt(value, 10) : value,
         };
 
         dispatch(setFormValues('message', values));
@@ -68,7 +68,7 @@ const MessageForm = {
           <label>
             Duration
             <input type="number" name="duration"
-              value={values.duration / 1000}
+              value={values.duration}
               onchange={ctrl.handleChange}
             />
             Sec

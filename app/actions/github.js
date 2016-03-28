@@ -19,6 +19,7 @@ export function fetchRepo(repo = null) {
   if (!/\w+\/\w+/.test(repo)) throw new Error('Must specify repo full name');
 
   return createFetchAction(FETCH_REPO, {
+    id: repo,
     url: `https://api.github.com/repos/${ repo }`,
     schema: repoSchema,
   });
