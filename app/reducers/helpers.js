@@ -1,15 +1,13 @@
 const INVALID_KEYS = ['', 'undefined', 'null'];
 
 export function createReducer(initialState, handlers = {}) {
-  let count = 0;
-
-  for (const key in handlers) {
-    if (handlers.hasOwnProperty(key) && INVALID_KEYS.indexOf(key) < 0) {
-      count += 1;
-    } else {
+  const count = Object.keys(handlers).reduce((memo, key) => {
+    if (INVALID_KEYS.indexOf(key) >= 0) {
       throw new Error('Unexpected action type found while creating reducer');
     }
-  }
+
+    return memo + 1;
+  }, 0);
 
   if (!count) throw new Error('No action types found while creating reducer');
 

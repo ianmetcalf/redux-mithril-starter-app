@@ -6,6 +6,7 @@ export function mountRoot(el, attrs) {
 
   if (module.hot) {
     module.hot.accept('./Root', () => {
+      // eslint-disable-next-line global-require
       mount(require('./Root').default);
     });
   }

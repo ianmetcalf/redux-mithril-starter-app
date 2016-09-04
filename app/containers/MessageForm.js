@@ -50,7 +50,8 @@ const MessageForm = {
     const state = store.getState();
 
     return (
-      <MessageFormComponent className={classNames(styles.messageForm, className)}
+      <MessageFormComponent
+        className={classNames(styles.messageForm, className)}
         values={getFormValues(state, FORM_ID) || {}}
         onChange={ctrl.handleChange}
         onSubmit={ctrl.handleSubmit}

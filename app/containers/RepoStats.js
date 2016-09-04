@@ -43,7 +43,8 @@ const RepoStats = {
     const state = store.getState();
 
     return (
-      <RepoStatsComponent className={classNames(styles.repoStats, className)}
+      <RepoStatsComponent
+        className={classNames(styles.repoStats, className)}
         repo={getEntityById(state, 'repos', repo)}
         pending={isPending(state, repo)}
       />

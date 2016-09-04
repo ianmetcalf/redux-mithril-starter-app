@@ -26,6 +26,7 @@
     "no-new-require": "error",
     "no-path-concat": "error",
 
+    "no-underscore-dangle": ["off"],
     "object-curly-spacing": ["error", "never"],
     "one-var": ["error", {
       "uninitialized": "always",
@@ -38,7 +39,18 @@
     "no-this-before-super": "error",
     "template-curly-spacing": ["error", "always"],
 
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": true,
+      "optionalDependencies": false
+    }],
+    "import/prefer-default-export": "off",
+
     "react/no-unknown-property": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/jsx-filename-extension": ["error", {
+      "extensions": [".js"]
+    }],
+
+    "jsx-a11y/label-has-for": "off"
   }
 }

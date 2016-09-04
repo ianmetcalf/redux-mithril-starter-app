@@ -6,7 +6,6 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
-
 const viewHelpers = require('./views/helpers');
 const routes = require('./routes/index');
 
@@ -18,6 +17,7 @@ app.set('view engine', 'hbs');
 
 // Only use the hashed assets when not running in development
 if (app.get('env') !== 'development') {
+  // eslint-disable-next-line global-require, import/no-unresolved
   viewHelpers.assets(require('../assets.json'));
 }
 
@@ -28,6 +28,7 @@ app.use(compression());
 
 app.use('/', routes);
 
+/* eslint-disable global-require */
 if (app.get('env') === 'development') {
   const webpack = require('webpack');
   const webpackConfig = require('../webpack.config');
@@ -49,6 +50,7 @@ if (app.get('env') === 'development') {
   }));
   app.use(require('webpack-hot-middleware')(compiler));
 }
+/* eslint-enable global-require */
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 

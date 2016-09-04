@@ -26,7 +26,9 @@ const MessageForm = {
         <div>
           <label>
             Message
-            <input type="text" name="message"
+            <input
+              type="text"
+              name="message"
               value={values.message || ''}
               onchange={ctrl.handleChange}
             />
@@ -35,7 +37,9 @@ const MessageForm = {
 
         <div>
           <label> Duration
-            <input type="number" name="duration"
+            <input
+              type="number"
+              name="duration"
               value={values.duration || 0}
               onchange={ctrl.handleChange}
             />
@@ -46,7 +50,10 @@ const MessageForm = {
         <div>
           {['info', 'success', 'warning', 'error'].map(type =>
             <label>
-              <input type="radio" name="type" value={type}
+              <input
+                type="radio"
+                name="type"
+                value={type}
                 checked={type === (values.type || 'info')}
                 onchange={ctrl.handleChange}
               />

@@ -8,7 +8,8 @@ const Messages = {
       <div className={classNames(styles.container, className)}>
         {messages.map(item =>
           <div key={item.id} className={styles[item.type] || styles.message}>
-            <button className={styles.close}
+            <button
+              className={styles.close}
               type="button"
               role="button"
               onclick={() => onClose(item.id)}

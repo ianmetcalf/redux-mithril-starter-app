@@ -20,7 +20,8 @@ const Messages = {
     const state = store.getState();
 
     return (
-      <MessagesComponent className={classNames(styles.messages, className)}
+      <MessagesComponent
+        className={classNames(styles.messages, className)}
         messages={getMessages(state)}
         onClose={ctrl.handleClose}
       />
