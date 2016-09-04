@@ -18,7 +18,7 @@ describe('action helpers', function () {
     });
 
     beforeEach('mock GET /api/users', function () {
-      fetchMock.mock('/api/users', 'GET', {
+      fetchMock.get('/api/users', {
         body: [
           {
             id: 1,
@@ -100,7 +100,7 @@ describe('action helpers', function () {
 
     context('when called with method', function () {
       beforeEach('mock POST /api/users', function () {
-        fetchMock.mock('/api/users', 'POST', {
+        fetchMock.post('/api/users', {
           body: [
             {
               id: 1,
@@ -318,7 +318,7 @@ describe('action helpers', function () {
 
     context('when server returns error', function () {
       beforeEach('mock GET /api/users/1', function () {
-        fetchMock.mock('/api/users/1', 'GET', {
+        fetchMock.get('/api/users/1', {
           body: {
             message: 'Not Found',
           },
@@ -366,7 +366,7 @@ describe('action helpers', function () {
 
     context('when server returns non-json response', function () {
       beforeEach('mock GET /api/users/1', function () {
-        fetchMock.mock('/api/users/1', 'GET', {
+        fetchMock.get('/api/users/1', {
           body: 'Error',
           status: 500,
         });
@@ -412,7 +412,7 @@ describe('action helpers', function () {
 
     context('when server is not available', function () {
       beforeEach('mock GET /api/users/1', function () {
-        fetchMock.mock('/api/users/1', 'GET', {
+        fetchMock.get('/api/users/1', {
           throws: new Error(),
         });
       });
