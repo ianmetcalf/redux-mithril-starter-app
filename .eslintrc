@@ -12,33 +12,33 @@
   },
 
   "rules": {
-    "strict": 0,
+    "strict": "off",
 
-    "comma-dangle": [1, "always-multiline"],
-    "no-unused-vars": [1, {
+    "comma-dangle": ["warn", "always-multiline"],
+    "no-unused-vars": ["warn", {
       "vars": "local",
       "args": "none"
     }],
-    "no-use-before-define": [2, "nofunc"],
+    "no-use-before-define": ["error", "nofunc"],
 
-    "handle-callback-err": 2,
-    "no-mixed-requires": 2,
-    "no-new-require": 2,
-    "no-path-concat": 2,
+    "handle-callback-err": "error",
+    "no-mixed-requires": "error",
+    "no-new-require": "error",
+    "no-path-concat": "error",
 
-    "object-curly-spacing": [2, "never"],
-    "one-var": [2, {
+    "object-curly-spacing": ["error", "never"],
+    "one-var": ["error", {
       "uninitialized": "always",
       "initialized": "never"
     }],
 
-    "constructor-super": 2,
-    "no-class-assign": 2,
-    "no-dupe-class-members": 2,
-    "no-this-before-super": 2,
-    "template-curly-spacing": [2, "always"],
+    "constructor-super": "error",
+    "no-class-assign": "error",
+    "no-dupe-class-members": "error",
+    "no-this-before-super": "error",
+    "template-curly-spacing": ["error", "always"],
 
-    "react/no-unknown-property": 0,
-    "react/prop-types": 0
+    "react/no-unknown-property": "off",
+    "react/prop-types": "off"
   }
 }

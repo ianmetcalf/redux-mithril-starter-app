@@ -6,6 +6,6 @@
   },
 
   "rules": {
-    "strict": 2
+    "strict": "error"
   }
 }

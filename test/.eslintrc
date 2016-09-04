@@ -4,8 +4,8 @@
   },
 
   "rules": {
-    "strict": 2,
-    "func-names": 0,
-    "prefer-arrow-callback": 0
+    "strict": "error",
+    "func-names": "off",
+    "prefer-arrow-callback": "off"
   }
 }
