@@ -6,14 +6,14 @@ import rootReducer from '../reducers';
 
 const middleware = [
   thunkMiddleware,
-  createLogger()
+  createLogger(),
 ];
 
 const enhancer = applyMiddleware(...middleware);
 
 export function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer);
-  store.subscribe(m.redraw)
+  store.subscribe(m.redraw);
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
