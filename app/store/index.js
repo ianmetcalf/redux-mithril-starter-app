@@ -4,15 +4,21 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import rootReducer from '../reducers';
 
-const middleware = [
+let enhancer = applyMiddleware(
   thunkMiddleware,
   createLogger(),
-];
+);
 
-const enhancer = applyMiddleware(...middleware);
+if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line global-require
+  const {composeWithDevTools} = require('redux-devtools-extension');
+
+  enhancer = composeWithDevTools(enhancer);
+}
 
 export function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer);
+
   store.subscribe(m.redraw);
 
   if (module.hot) {
