@@ -47,7 +47,7 @@
     "mithril": "^0.2.5",
     "morgan": "^1.7.0",
     "node-fetch": "^1.6.0",
-    "normalizr": "^2.2.1",
+    "normalizr": "^3.0.2",
     "postcss-loader": "^0.11.1",
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",

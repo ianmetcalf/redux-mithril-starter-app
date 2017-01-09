@@ -1,6 +1,6 @@
 import expect from 'expect';
 import fetchMock from 'fetch-mock';
-import {Schema, arrayOf} from 'normalizr';
+import {schema} from 'normalizr';
 
 import {
   createRequest,
@@ -241,17 +241,17 @@ describe('action helpers', function () {
     });
 
     context('when called with schema', function () {
-      const userSchema = new Schema('users');
-      const teamSchema = new Schema('teams');
+      const userSchema = new schema.Entity('users');
+      const teamSchema = new schema.Entity('teams');
 
       userSchema.define({
-        teams: arrayOf(teamSchema),
+        teams: [teamSchema],
       });
 
       it('creates request actions', function () {
         return expect(createRequest(SOME_ACTION, {
           url: '/api/users',
-          schema: arrayOf(userSchema),
+          schema: [userSchema],
         })).toDispatchActions([
           {
             type: SOME_ACTION,
@@ -295,7 +295,7 @@ describe('action helpers', function () {
       it('creates FSA compliant actions', function () {
         return expect(createRequest(SOME_ACTION, {
           url: '/api/users',
-          schema: arrayOf(userSchema),
+          schema: [userSchema],
         })).toDispatchFSACompliantActions();
       });
     });

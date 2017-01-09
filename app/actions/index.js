@@ -1,4 +1,4 @@
 export * from './constants';
+export * from './entity';
 export * from './form';
-export * from './github';
 export * from './message';

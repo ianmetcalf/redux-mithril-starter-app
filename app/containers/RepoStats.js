@@ -2,7 +2,7 @@ import m from 'mithril';
 import classNames from 'classnames';
 import RepoStatsComponent from '../components/RepoStats';
 import {getEntityById, isRequesting} from '../selectors';
-import {fetchRepo, showMessage} from '../actions';
+import {fetchEntityAndShowMessage} from '../actions';
 import styles from './style.css';
 
 const FETCH_RATE = 90 * 1000;
@@ -14,15 +14,11 @@ const RepoStats = {
     let timeout = null;
 
     function nextFetch() {
-      dispatch(fetchRepo(attrs.repo)).then(resp => {
-        if (resp.error) {
-          dispatch(showMessage({
-            body: 'Failed to fetch repo',
-            type: 'error',
-            duration: 10,
-          }));
-        }
+      dispatch(fetchEntityAndShowMessage('repo', {
+        id: attrs.repo,
+      }))
 
+      .then(() => {
         timeout = setTimeout(nextFetch, FETCH_RATE);
       });
     }
