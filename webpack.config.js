@@ -6,7 +6,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const DEV = NODE_ENV === 'development';
+const isDev = NODE_ENV === 'development';
 
 module.exports = {
   context: path.resolve('app/'),
@@ -43,7 +43,7 @@ module.exports = {
             modules: true,
             camelCase: true,
             importLoaders: 1,
-            localIdentName: DEV ? '[path][name]-[local]-[hash:base64:5]' : '[hash:base64]',
+            localIdentName: isDev ? '[path][name]-[local]-[hash:base64:5]' : '[hash:base64]',
           }) }`,
           'postcss-loader',
         ]),
@@ -66,10 +66,10 @@ module.exports = {
     new webpack.ProvidePlugin({
       fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch',
     }),
-    new webpack.optimize.CommonsChunkPlugin('common.js'),
+    new webpack.optimize.CommonsChunkPlugin({name: 'common'}),
     new ExtractTextPlugin('[name].css', {
       allChunks: true,
-      disable: NODE_ENV === 'development',
+      disable: isDev,
     }),
   ],
 
