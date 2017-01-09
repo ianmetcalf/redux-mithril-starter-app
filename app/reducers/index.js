@@ -2,13 +2,13 @@ import {combineReducers} from 'redux';
 import entities from './entities';
 import forms from './forms';
 import messages from './messages';
-import pending from './pending';
+import requests from './requests';
 
 const root = combineReducers({
   entities,
   forms,
   messages,
-  pending,
+  requests,
 });
 
 export default root;

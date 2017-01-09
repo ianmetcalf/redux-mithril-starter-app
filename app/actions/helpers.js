@@ -1,5 +1,5 @@
 import {normalize} from 'normalizr';
-import {isPending} from '../selectors';
+import {isRequesting} from '../selectors';
 
 export function createRequest(type, {
   url,
@@ -26,13 +26,16 @@ export function createRequest(type, {
   }
 
   return (dispatch, getState) => {
-    if (isPending(getState(), id)) return Promise.resolve();
+    if (isRequesting(getState(), id)) return Promise.resolve();
 
     dispatch({
       type,
       meta: {
         ...meta,
-        pending: {id},
+        request: {
+          id,
+          pending: true,
+        },
       },
     });
 
@@ -64,7 +67,10 @@ export function createRequest(type, {
       payload: schema && !error ? normalize(payload, schema) : payload,
       meta: {
         ...meta,
-        pending: {id, completed: true},
+        request: {
+          id,
+          completed: true,
+        },
       },
     }));
   };

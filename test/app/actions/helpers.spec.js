@@ -51,8 +51,9 @@ describe('action helpers', function () {
           {
             type: SOME_ACTION,
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users',
+                pending: true,
               },
             },
           },
@@ -71,7 +72,7 @@ describe('action helpers', function () {
               },
             ],
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users',
                 completed: true,
               },
@@ -107,8 +108,9 @@ describe('action helpers', function () {
           {
             type: SOME_ACTION,
             meta: {
-              pending: {
+              request: {
                 id: 'POST /api/users',
+                pending: true,
               },
             },
           },
@@ -121,7 +123,7 @@ describe('action helpers', function () {
               },
             ],
             meta: {
-              pending: {
+              request: {
                 id: 'POST /api/users',
                 completed: true,
               },
@@ -147,8 +149,9 @@ describe('action helpers', function () {
           {
             type: SOME_ACTION,
             meta: {
-              pending: {
+              request: {
                 id: 'something else',
+                pending: true,
               },
             },
           },
@@ -167,7 +170,7 @@ describe('action helpers', function () {
               },
             ],
             meta: {
-              pending: {
+              request: {
                 id: 'something else',
                 completed: true,
               },
@@ -196,8 +199,9 @@ describe('action helpers', function () {
             type: SOME_ACTION,
             meta: {
               silent: true,
-              pending: {
+              request: {
                 id: 'GET /api/users',
+                pending: true,
               },
             },
           },
@@ -217,7 +221,7 @@ describe('action helpers', function () {
             ],
             meta: {
               silent: true,
-              pending: {
+              request: {
                 id: 'GET /api/users',
                 completed: true,
               },
@@ -252,8 +256,9 @@ describe('action helpers', function () {
           {
             type: SOME_ACTION,
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users',
+                pending: true,
               },
             },
           },
@@ -278,7 +283,7 @@ describe('action helpers', function () {
               },
             },
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users',
                 completed: true,
               },
@@ -312,8 +317,9 @@ describe('action helpers', function () {
           {
             type: SOME_ACTION,
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users/1',
+                pending: true,
               },
             },
           },
@@ -324,7 +330,7 @@ describe('action helpers', function () {
               message: 'Not Found',
             },
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users/1',
                 completed: true,
               },
@@ -355,8 +361,9 @@ describe('action helpers', function () {
           {
             type: SOME_ACTION,
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users/1',
+                pending: true,
               },
             },
           },
@@ -367,7 +374,7 @@ describe('action helpers', function () {
               message: 'Server Error',
             },
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users/1',
                 completed: true,
               },
@@ -397,8 +404,9 @@ describe('action helpers', function () {
           {
             type: SOME_ACTION,
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users/1',
+                pending: true,
               },
             },
           },
@@ -409,7 +417,7 @@ describe('action helpers', function () {
               message: 'Network Error',
             },
             meta: {
-              pending: {
+              request: {
                 id: 'GET /api/users/1',
                 completed: true,
               },
@@ -430,9 +438,11 @@ describe('action helpers', function () {
         return expect(createRequest(SOME_ACTION, {
           url: '/api/users',
         })).withState({
-          pending: [
-            {id: 'GET /api/users'},
-          ],
+          requests: {
+            'GET /api/users': {
+              pending: true,
+            },
+          },
         }).toNotDispatchActions();
       });
     });

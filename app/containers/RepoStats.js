@@ -1,7 +1,7 @@
 import m from 'mithril';
 import classNames from 'classnames';
 import RepoStatsComponent from '../components/RepoStats';
-import {getEntityById, isPending} from '../selectors';
+import {getEntityById, isRequesting} from '../selectors';
 import {fetchRepo, showMessage} from '../actions';
 import styles from './style.css';
 
@@ -46,7 +46,7 @@ const RepoStats = {
       <RepoStatsComponent
         className={classNames(styles.repoStats, className)}
         repo={getEntityById(state, 'repos', repo)}
-        pending={isPending(state, repo)}
+        pending={isRequesting(state, repo)}
       />
     );
   },
