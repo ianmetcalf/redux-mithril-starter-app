@@ -1,15 +1,27 @@
-export function getFormFocus(state = {}, id = null) {
-  if (id === null) throw new Error('Must specify a form to get focus');
+export function getFormFocus(state = {}, id) {
+  if (!id) throw new Error('Must specify a form to get focus');
 
-  const {forms: {[id]: {focus = null} = {}} = {}} = state;
+  const {
+    forms: {
+      [id]: {
+        focus = null,
+      } = {},
+    } = {},
+  } = state;
 
   return focus;
 }
 
-export function getFormValues(state = {}, id = null) {
-  if (id === null) throw new Error('Must specify a form to get values');
+export function getFormValues(state = {}, id) {
+  if (!id) throw new Error('Must specify a form to get values');
 
-  const {forms: {[id]: {values = null} = {}} = {}} = state;
+  const {
+    forms: {
+      [id]: {
+        values = null,
+      } = {},
+    } = {},
+  } = state;
 
   return values;
 }

@@ -1,6 +1,11 @@
 import expect from 'expect';
 import freeze from 'deep-freeze';
-import {getMessages, getMessagesWhere, getMessageById} from '../../../app/selectors/message';
+
+import {
+  getMessages,
+  getMessagesWhere,
+  getMessageById,
+} from '../../../app/selectors/message';
 
 describe('message selectors', function () {
   describe('#getMessages', function () {

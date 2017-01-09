@@ -1,6 +1,10 @@
 import expect from 'expect';
 import freeze from 'deep-freeze';
-import {getFormFocus, getFormValues} from '../../../app/selectors/form';
+
+import {
+  getFormFocus,
+  getFormValues,
+} from '../../../app/selectors/form';
 
 describe('form selectors', function () {
   describe('#getFormFocus', function () {

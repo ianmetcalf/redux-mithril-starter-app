@@ -1,18 +1,26 @@
 import isMatch from 'lodash/isMatch';
 
-export function getMessages(state = []) {
-  return state.messages;
+export function getMessages(state = {}) {
+  const {
+    messages = [],
+  } = state;
+
+  return messages;
 }
 
-export function getMessagesWhere(state = [], criteria = {}) {
-  return state.messages.filter(item => isMatch(item, criteria));
+export function getMessagesWhere(state, criteria = {}) {
+  const messages = getMessages(state);
+
+  return messages.filter(item => isMatch(item, criteria));
 }
 
-export function getMessageById(state = [], id = null) {
-  if (id === null) throw new Error('Must specify an id to get message');
+export function getMessageById(state, id) {
+  if (!id) throw new Error('Must specify an id to get message');
 
-  for (let i = 0; i < state.messages.length; i++) {
-    if (state.messages[i].id === id) return state.messages[i];
+  const messages = getMessages(state);
+
+  for (let i = 0; i < messages.length; i += 1) {
+    if (messages[i].id === id) return messages[i];
   }
 
   return null;
