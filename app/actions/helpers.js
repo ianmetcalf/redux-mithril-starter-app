@@ -1,7 +1,7 @@
 import {normalize} from 'normalizr';
 import {isPending} from '../selectors';
 
-export function createFetchAction(type = null, {
+export function createRequest(type, {
   url,
   method = 'GET',
   id = `${ method } ${ url }`,
@@ -9,7 +9,7 @@ export function createFetchAction(type = null, {
   schema,
   ...options
 } = {}) {
-  if (type === null) throw new Error('Must specify an action type to create fetch action');
+  if (!type) throw new Error('Must specify an action type to create request');
   if (typeof url !== 'string') throw new Error(`Must specify a url to create ${ type } action`);
 
   let opts = options;

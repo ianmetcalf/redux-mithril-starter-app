@@ -1,5 +1,10 @@
 import uniqueId from 'lodash/uniqueId';
-import {SHOW_MESSAGE, CLEAR_MESSAGE, RESET_MESSAGES} from './constants';
+
+import {
+  SHOW_MESSAGE,
+  CLEAR_MESSAGE,
+  RESET_MESSAGES,
+} from './constants';
 
 export function showMessage({body = '', type = 'success', duration, ...attrs} = {}) {
   if (!body.length) throw new Error('Must specify a body for message');
@@ -30,8 +35,8 @@ export function showMessage({body = '', type = 'success', duration, ...attrs} = 
   };
 }
 
-export function clearMessage(id = null) {
-  if (id === null) throw new Error('Must specify an id to remove message');
+export function clearMessage(id) {
+  if (!id) throw new Error('Must specify a message to remove');
 
   return {
     type: CLEAR_MESSAGE,

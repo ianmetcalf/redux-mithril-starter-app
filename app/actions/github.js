@@ -1,6 +1,9 @@
 import {Schema} from 'normalizr';
-import {FETCH_REPO} from './constants';
-import {createFetchAction} from './helpers';
+import {createRequest} from './helpers';
+
+import {
+  FETCH_REPO,
+} from './constants';
 
 const repoSchema = new Schema('repos', {
   idAttribute: 'full_name',
@@ -18,7 +21,7 @@ export function fetchRepo(repo = null) {
   if (repo === null) throw new Error('Must specify a repo to fetch');
   if (!/\w+\/\w+/.test(repo)) throw new Error('Must specify repo full name');
 
-  return createFetchAction(FETCH_REPO, {
+  return createRequest(FETCH_REPO, {
     id: repo,
     url: `https://api.github.com/repos/${ repo }`,
     schema: repoSchema,

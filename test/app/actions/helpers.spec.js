@@ -1,23 +1,16 @@
 import expect from 'expect';
 import fetchMock from 'fetch-mock';
 import {Schema, arrayOf} from 'normalizr';
-import {isFSA} from 'flux-standard-action';
-import {createThunkStore} from './helpers';
-import {createFetchAction} from '../../../app/actions/helpers';
+
+import {
+  createRequest,
+} from '../../../app/actions/helpers';
+
+const SOME_ACTION = 'SOME_ACTION';
 
 describe('action helpers', function () {
-  const SOME_ACTION = 'SOME_ACTION';
-
-  describe('#createFetchAction', function () {
-    let store = null;
-
-    beforeEach('create store', function () {
-      store = createThunkStore(state => state, {
-        pending: [],
-      });
-    });
-
-    beforeEach('mock GET /api/users', function () {
+  describe('#createRequest', function () {
+    beforeEach('mock server api', function () {
       fetchMock.get('/api/users', {
         body: [
           {
@@ -40,66 +33,62 @@ describe('action helpers', function () {
 
     context('when called without action type', function () {
       it('throws missing type error', function () {
-        expect(() => createFetchAction()).toThrow(/must specify an action type/i);
+        return expect(() => createRequest()).toThrow(/must specify an action type/i);
       });
     });
 
     context('when called without url', function () {
       it('throws missing url error', function () {
-        expect(() => createFetchAction(SOME_ACTION)).toThrow(/must specify a url/i);
+        return expect(() => createRequest(SOME_ACTION)).toThrow(/must specify a url/i);
       });
     });
 
     context('when called with url', function () {
-      beforeEach('dispatch #createFetchAction() action', function () {
-        return store.dispatch(createFetchAction(SOME_ACTION, {
+      it('creates request actions', function () {
+        return expect(createRequest(SOME_ACTION, {
           url: '/api/users',
-        }));
-      });
-
-      it('creates pending fetch action for url', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          meta: {
-            pending: {
-              id: 'GET /api/users',
+        })).toDispatchActions([
+          {
+            type: SOME_ACTION,
+            meta: {
+              pending: {
+                id: 'GET /api/users',
+              },
             },
           },
-        });
-      });
-
-      it('creates completed fetch action for url', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          error: false,
-          payload: [
-            {
-              id: 1,
-              name: 'Some User',
-              teams: [
-                {
-                  id: 1,
-                  name: 'Some Team',
-                },
-              ],
-            },
-          ],
-          meta: {
-            pending: {
-              id: 'GET /api/users',
-              completed: true,
+          {
+            type: SOME_ACTION,
+            payload: [
+              {
+                id: 1,
+                name: 'Some User',
+                teams: [
+                  {
+                    id: 1,
+                    name: 'Some Team',
+                  },
+                ],
+              },
+            ],
+            meta: {
+              pending: {
+                id: 'GET /api/users',
+                completed: true,
+              },
             },
           },
-        });
+        ]);
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(createRequest(SOME_ACTION, {
+          url: '/api/users',
+        })).toDispatchFSACompliantActions();
       });
     });
 
     context('when called with method', function () {
-      beforeEach('mock POST /api/users', function () {
+      beforeEach('mock server api', function () {
         fetchMock.post('/api/users', {
           body: [
             {
@@ -110,214 +99,204 @@ describe('action helpers', function () {
         });
       });
 
-      beforeEach('dispatch #createFetchAction() action', function () {
-        return store.dispatch(createFetchAction(SOME_ACTION, {
+      it('creates request actions', function () {
+        return expect(createRequest(SOME_ACTION, {
           url: '/api/users',
           method: 'POST',
-        }));
-      });
-
-      it('creates pending fetch action for method', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          meta: {
-            pending: {
-              id: 'POST /api/users',
+        })).toDispatchActions([
+          {
+            type: SOME_ACTION,
+            meta: {
+              pending: {
+                id: 'POST /api/users',
+              },
             },
           },
-        });
-      });
-
-      it('creates completed fetch action for method', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          error: false,
-          payload: [
-            {
-              id: 1,
-              name: 'Some User',
-            },
-          ],
-          meta: {
-            pending: {
-              id: 'POST /api/users',
-              completed: true,
+          {
+            type: SOME_ACTION,
+            payload: [
+              {
+                id: 1,
+                name: 'Some User',
+              },
+            ],
+            meta: {
+              pending: {
+                id: 'POST /api/users',
+                completed: true,
+              },
             },
           },
-        });
+        ]);
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(createRequest(SOME_ACTION, {
+          url: '/api/users',
+          method: 'POST',
+        })).toDispatchFSACompliantActions();
       });
     });
 
     context('when called with id', function () {
-      beforeEach('dispatch #createFetchAction() action', function () {
-        return store.dispatch(createFetchAction(SOME_ACTION, {
+      it('creates request actions', function () {
+        return expect(createRequest(SOME_ACTION, {
           url: '/api/users',
           id: 'something else',
-        }));
-      });
-
-      it('creates pending fetch action with id', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          meta: {
-            pending: {
-              id: 'something else',
+        })).toDispatchActions([
+          {
+            type: SOME_ACTION,
+            meta: {
+              pending: {
+                id: 'something else',
+              },
             },
           },
-        });
-      });
-
-      it('creates completed fetch action with id', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          error: false,
-          payload: [
-            {
-              id: 1,
-              name: 'Some User',
-              teams: [
-                {
-                  id: 1,
-                  name: 'Some Team',
-                },
-              ],
-            },
-          ],
-          meta: {
-            pending: {
-              id: 'something else',
-              completed: true,
+          {
+            type: SOME_ACTION,
+            payload: [
+              {
+                id: 1,
+                name: 'Some User',
+                teams: [
+                  {
+                    id: 1,
+                    name: 'Some Team',
+                  },
+                ],
+              },
+            ],
+            meta: {
+              pending: {
+                id: 'something else',
+                completed: true,
+              },
             },
           },
-        });
+        ]);
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(createRequest(SOME_ACTION, {
+          url: '/api/users',
+          id: 'something else',
+        })).toDispatchFSACompliantActions();
       });
     });
 
     context('when called with meta', function () {
-      beforeEach('dispatch #createFetchAction() action', function () {
-        return store.dispatch(createFetchAction(SOME_ACTION, {
+      it('creates request actions', function () {
+        return expect(createRequest(SOME_ACTION, {
           url: '/api/users',
           meta: {
             silent: true,
           },
-        }));
-      });
-
-      it('creates pending fetch action with meta', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          meta: {
-            silent: true,
-            pending: {
-              id: 'GET /api/users',
+        })).toDispatchActions([
+          {
+            type: SOME_ACTION,
+            meta: {
+              silent: true,
+              pending: {
+                id: 'GET /api/users',
+              },
             },
           },
-        });
-      });
-
-      it('creates completed fetch action with meta', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          error: false,
-          payload: [
-            {
-              id: 1,
-              name: 'Some User',
-              teams: [
-                {
-                  id: 1,
-                  name: 'Some Team',
-                },
-              ],
-            },
-          ],
-          meta: {
-            silent: true,
-            pending: {
-              id: 'GET /api/users',
-              completed: true,
+          {
+            type: SOME_ACTION,
+            payload: [
+              {
+                id: 1,
+                name: 'Some User',
+                teams: [
+                  {
+                    id: 1,
+                    name: 'Some Team',
+                  },
+                ],
+              },
+            ],
+            meta: {
+              silent: true,
+              pending: {
+                id: 'GET /api/users',
+                completed: true,
+              },
             },
           },
-        });
+        ]);
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(createRequest(SOME_ACTION, {
+          url: '/api/users',
+          meta: {
+            silent: true,
+          },
+        })).toDispatchFSACompliantActions();
       });
     });
 
     context('when called with schema', function () {
-      beforeEach('dispatch #createFetchAction() action', function () {
-        const userSchema = new Schema('users');
-        const teamSchema = new Schema('teams');
+      const userSchema = new Schema('users');
+      const teamSchema = new Schema('teams');
 
-        userSchema.define({
-          teams: arrayOf(teamSchema),
-        });
+      userSchema.define({
+        teams: arrayOf(teamSchema),
+      });
 
-        return store.dispatch(createFetchAction(SOME_ACTION, {
+      it('creates request actions', function () {
+        return expect(createRequest(SOME_ACTION, {
           url: '/api/users',
           schema: arrayOf(userSchema),
-        }));
-      });
-
-      it('creates pending fetch action', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          meta: {
-            pending: {
-              id: 'GET /api/users',
-            },
-          },
-        });
-      });
-
-      it('creates completed fetch action with normalized payload', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          error: false,
-          payload: {
-            result: [1],
-            entities: {
-              users: {
-                1: {
-                  id: 1,
-                  name: 'Some User',
-                  teams: [1],
-                },
-              },
-              teams: {
-                1: {
-                  id: 1,
-                  name: 'Some Team',
-                },
+        })).toDispatchActions([
+          {
+            type: SOME_ACTION,
+            meta: {
+              pending: {
+                id: 'GET /api/users',
               },
             },
           },
-          meta: {
-            pending: {
-              id: 'GET /api/users',
-              completed: true,
+          {
+            type: SOME_ACTION,
+            payload: {
+              result: [1],
+              entities: {
+                users: {
+                  1: {
+                    id: 1,
+                    name: 'Some User',
+                    teams: [1],
+                  },
+                },
+                teams: {
+                  1: {
+                    id: 1,
+                    name: 'Some Team',
+                  },
+                },
+              },
+            },
+            meta: {
+              pending: {
+                id: 'GET /api/users',
+                completed: true,
+              },
             },
           },
-        });
+        ]);
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(createRequest(SOME_ACTION, {
+          url: '/api/users',
+          schema: arrayOf(userSchema),
+        })).toDispatchFSACompliantActions();
       });
     });
 
     context('when server returns error', function () {
-      beforeEach('mock GET /api/users/1', function () {
+      beforeEach('mock server api', function () {
         fetchMock.get('/api/users/1', {
           body: {
             message: 'Not Found',
@@ -326,152 +305,135 @@ describe('action helpers', function () {
         });
       });
 
-      beforeEach('dispatch #createFetchAction() action', function () {
-        return store.dispatch(createFetchAction(SOME_ACTION, {
+      it('creates request actions', function () {
+        return expect(createRequest(SOME_ACTION, {
           url: '/api/users/1',
-        }));
-      });
-
-      it('creates pending fetch action', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          meta: {
-            pending: {
-              id: 'GET /api/users/1',
+        })).toDispatchActions([
+          {
+            type: SOME_ACTION,
+            meta: {
+              pending: {
+                id: 'GET /api/users/1',
+              },
             },
           },
-        });
-      });
-
-      it('creates completed fetch action with error', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          error: true,
-          payload: {
-            message: 'Not Found',
-          },
-          meta: {
-            pending: {
-              id: 'GET /api/users/1',
-              completed: true,
+          {
+            type: SOME_ACTION,
+            error: true,
+            payload: {
+              message: 'Not Found',
+            },
+            meta: {
+              pending: {
+                id: 'GET /api/users/1',
+                completed: true,
+              },
             },
           },
-        });
+        ]);
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(createRequest(SOME_ACTION, {
+          url: '/api/users/1',
+        })).toDispatchFSACompliantActions();
       });
     });
 
     context('when server returns non-json response', function () {
-      beforeEach('mock GET /api/users/1', function () {
+      beforeEach('mock server api', function () {
         fetchMock.get('/api/users/1', {
           body: 'Error',
           status: 500,
         });
       });
 
-      beforeEach('dispatch #createFetchAction() action', function () {
-        return store.dispatch(createFetchAction(SOME_ACTION, {
+      it('creates request actions', function () {
+        return expect(createRequest(SOME_ACTION, {
           url: '/api/users/1',
-        }));
-      });
-
-      it('creates pending fetch action', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          meta: {
-            pending: {
-              id: 'GET /api/users/1',
+        })).toDispatchActions([
+          {
+            type: SOME_ACTION,
+            meta: {
+              pending: {
+                id: 'GET /api/users/1',
+              },
             },
           },
-        });
-      });
-
-      it('creates completed fetch action with error', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          error: true,
-          payload: {
-            message: 'Server Error',
-          },
-          meta: {
-            pending: {
-              id: 'GET /api/users/1',
-              completed: true,
+          {
+            type: SOME_ACTION,
+            error: true,
+            payload: {
+              message: 'Server Error',
+            },
+            meta: {
+              pending: {
+                id: 'GET /api/users/1',
+                completed: true,
+              },
             },
           },
-        });
+        ]);
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(createRequest(SOME_ACTION, {
+          url: '/api/users/1',
+        })).toDispatchFSACompliantActions();
       });
     });
 
     context('when server is not available', function () {
-      beforeEach('mock GET /api/users/1', function () {
+      beforeEach('mock server api', function () {
         fetchMock.get('/api/users/1', {
           throws: new Error(),
         });
       });
 
-      beforeEach('dispatch #createFetchAction() action', function () {
-        return store.dispatch(createFetchAction(SOME_ACTION, {
+      it('creates request actions', function () {
+        return expect(createRequest(SOME_ACTION, {
           url: '/api/users/1',
-        }));
-      });
-
-      it('creates pending fetch action', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          meta: {
-            pending: {
-              id: 'GET /api/users/1',
+        })).toDispatchActions([
+          {
+            type: SOME_ACTION,
+            meta: {
+              pending: {
+                id: 'GET /api/users/1',
+              },
             },
           },
-        });
-      });
-
-      it('creates completed fetch action with error', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SOME_ACTION,
-          error: true,
-          payload: {
-            message: 'Network Error',
-          },
-          meta: {
-            pending: {
-              id: 'GET /api/users/1',
-              completed: true,
+          {
+            type: SOME_ACTION,
+            error: true,
+            payload: {
+              message: 'Network Error',
+            },
+            meta: {
+              pending: {
+                id: 'GET /api/users/1',
+                completed: true,
+              },
             },
           },
-        });
+        ]);
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(createRequest(SOME_ACTION, {
+          url: '/api/users/1',
+        })).toDispatchFSACompliantActions();
       });
     });
 
-    context('when previous call is pending', function () {
-      beforeEach('create store', function () {
-        store = createThunkStore(state => state, {
+    context('when request is pending', function () {
+      it('does not create request actions', function () {
+        return expect(createRequest(SOME_ACTION, {
+          url: '/api/users',
+        })).withState({
           pending: [
             {id: 'GET /api/users'},
           ],
-        });
-      });
-
-      beforeEach('dispatch #createFetchAction() action', function () {
-        return store.dispatch(createFetchAction(SOME_ACTION, {
-          url: '/api/users',
-        }));
-      });
-
-      it('does not create actions', function () {
-        expect(store._dispatch).toNotHaveBeenCalled();
+        }).toNotDispatchActions();
       });
     });
   });

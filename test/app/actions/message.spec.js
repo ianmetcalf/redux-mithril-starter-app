@@ -1,69 +1,58 @@
 import expect from 'expect';
-import {isFSA} from 'flux-standard-action';
-import {createThunkStore} from './helpers';
-import {SHOW_MESSAGE, CLEAR_MESSAGE, RESET_MESSAGES} from '../../../app/actions/constants';
-import {showMessage, clearMessage, resetMessages} from '../../../app/actions/message';
+
+import {
+  showMessage,
+  clearMessage,
+  resetMessages,
+} from '../../../app/actions/message';
+
+import {
+  SHOW_MESSAGE,
+  CLEAR_MESSAGE,
+  RESET_MESSAGES,
+} from '../../../app/actions/constants';
 
 describe('message actions', function () {
   describe('#showMessage', function () {
-    let store = null;
-
-    beforeEach('create store', function () {
-      store = createThunkStore(state => state, {
-        messages: [],
-      });
-    });
-
     context('when called without body', function () {
       it('throws missing body error', function () {
-        expect(() => showMessage()).toThrow(/must specify a body/i);
+        return expect(() => showMessage()).toThrow(/must specify a body/i);
       });
     });
 
     context('when called with empty body', function () {
       it('throws missing message error', function () {
-        expect(() => showMessage({body: ''})).toThrow(/must specify a body/i);
+        return expect(() => showMessage({body: ''})).toThrow(/must specify a body/i);
       });
     });
 
     context('when called with body', function () {
-      beforeEach('dispatch #showMessage() action', function () {
-        return store.dispatch(showMessage({
-          id: 'message_id',
+      it('creates show message action', function () {
+        return expect(showMessage({
           body: 'Some message',
-        }));
-      });
-
-      it('creates SHOW_MESSAGE action with body', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
+        })).toDispatchAction({
           type: SHOW_MESSAGE,
           payload: {
-            id: 'message_id',
             body: 'Some message',
-            type: 'success',
           },
         });
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(showMessage({
+          body: 'Some message',
+        })).toDispatchFSACompliantActions();
       });
     });
 
     context('when called with type', function () {
-      beforeEach('dispatch #showMessage() action', function () {
-        return store.dispatch(showMessage({
-          id: 'message_id',
-          type: 'error',
+      it('creates show message action', function () {
+        return expect(showMessage({
           body: 'Some message',
-        }));
-      });
-
-      it('creates SHOW_MESSAGE action with type', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
+          type: 'error',
+        })).toDispatchAction({
           type: SHOW_MESSAGE,
           payload: {
-            id: 'message_id',
             body: 'Some message',
             type: 'error',
           },
@@ -71,97 +60,96 @@ describe('message actions', function () {
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(showMessage({
+          body: 'Some message',
+          type: 'error',
+        })).toDispatchFSACompliantActions();
       });
     });
 
-    context('when called with additional props', function () {
-      beforeEach('dispatch #showMessage() action', function () {
-        return store.dispatch(showMessage({
+    context('when called with id', function () {
+      it('creates show message action', function () {
+        return expect(showMessage({
           id: 'message_id',
           body: 'Some message',
-          prop: 'some prop',
-        }));
-      });
-
-      it('creates SHOW_MESSAGE action with prop', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
+        })).toDispatchAction({
           type: SHOW_MESSAGE,
           payload: {
             id: 'message_id',
             body: 'Some message',
-            type: 'success',
+          },
+        });
+      });
+
+      it('creates FSA compliant actions', function () {
+        return expect(showMessage({
+          id: 'message_id',
+          body: 'Some message',
+        })).toDispatchFSACompliantActions();
+      });
+    });
+
+    context('when called with additional props', function () {
+      it('creates show message action', function () {
+        return expect(showMessage({
+          body: 'Some message',
+          prop: 'some prop',
+        })).toDispatchAction({
+          type: SHOW_MESSAGE,
+          payload: {
+            body: 'Some message',
             prop: 'some prop',
           },
         });
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(showMessage({
+          body: 'Some message',
+          prop: 'some prop',
+        })).toDispatchFSACompliantActions();
       });
     });
 
     context('when called without duration', function () {
-      beforeEach('dispatch #showMessage() action', function () {
-        return store.dispatch(showMessage({
+      it('does not create clear message action', function () {
+        return expect(showMessage({
           body: 'Some message',
-        }));
-      });
-
-      it('does not clear the message', function () {
-        expect(store._dispatch.calls.length).toEqual(1);
-      });
-
-      it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        })).toNotDispatchAction({
+          type: CLEAR_MESSAGE,
+        });
       });
     });
 
     context('when called with duration', function () {
-      beforeEach('dispatch #showMessage() action', function () {
-        return store.dispatch(showMessage({
-          id: 'message_id',
+      it('creates clear message action', function () {
+        return expect(showMessage({
           body: 'Some message',
-          duration: 0.1,
-        }));
-      });
-
-      it('creates SHOW_MESSAGE action', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
-          type: SHOW_MESSAGE,
-          payload: {
-            id: 'message_id',
-            body: 'Some message',
-            type: 'success',
-          },
-        });
-      });
-
-      it('creates CLEAR_MESSAGE action', function () {
-        expect(store._dispatch).toHaveBeenCalledWith({
+          duration: 0.001,
+        })).toDispatchAction({
           type: CLEAR_MESSAGE,
-          payload: {
-            id: 'message_id',
-          },
         });
       });
 
       it('creates FSA compliant actions', function () {
-        expect(store._dispatch.calls.every(({arguments: [action]}) => isFSA(action))).toBe(true);
+        return expect(showMessage({
+          body: 'Some message',
+          duration: 0.001,
+        })).toDispatchFSACompliantActions();
       });
     });
   });
 
   describe('#clearMessage', function () {
-    context('when called without id', function () {
-      it('throws missing id error', function () {
-        expect(() => clearMessage()).toThrow(/must specify an id/i);
+    context('when called without message', function () {
+      it('throws missing message error', function () {
+        return expect(() => clearMessage()).toThrow(/must specify a message/i);
       });
     });
 
-    context('when called with id', function () {
-      it('creats CLEAR_MESSAGE action', function () {
-        expect(clearMessage('message_id')).toEqual({
+    context('when called with message', function () {
+      it('creates clear message action', function () {
+        return expect(clearMessage('message_id')).toDispatchAction({
           type: CLEAR_MESSAGE,
           payload: {
             id: 'message_id',
@@ -169,21 +157,21 @@ describe('message actions', function () {
         });
       });
 
-      it('creates FSA compliant action', function () {
-        expect(isFSA(clearMessage('message_id'))).toBe(true);
+      it('creates FSA compliant actions', function () {
+        return expect(clearMessage('message_id')).toDispatchFSACompliantActions();
       });
     });
   });
 
   describe('#resetMessages', function () {
-    it('creats RESET_MESSAGES action', function () {
-      expect(resetMessages()).toEqual({
+    it('creates reset messages action', function () {
+      return expect(resetMessages()).toDispatchAction({
         type: RESET_MESSAGES,
       });
     });
 
-    it('creates FSA compliant action', function () {
-      expect(isFSA(resetMessages())).toBe(true);
+    it('creates FSA compliant actions', function () {
+      return expect(resetMessages()).toDispatchFSACompliantActions();
     });
   });
 });
