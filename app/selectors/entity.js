@@ -1,30 +1,54 @@
 import isMatch from 'lodash/isMatch';
+import orderBy from 'lodash/orderBy';
+import unzip from 'lodash/unzip';
 
-export function getEntities(state = {}, key = null) {
-  if (key === null) throw new Error('Must specify a key to get entities');
+export function getEntities(state = {}, entity, options = {}) {
+  if (!entity) throw new Error('Must specify an entity to get');
 
-  const {entities: {[key]: entities = {}} = {}} = state;
+  const {
+    entities: {
+      [entity]: entities = {},
+    } = {},
+  } = state;
 
-  return Object.keys(entities).map(id => entities[id]);
-}
+  const items = Object.keys(entities).reduce((memo, id) => {
+    const item = entities[id];
 
-export function getEntitiesWhere(state = {}, key = null, criteria = {}) {
-  if (key === null) throw new Error('Must specify a key to get entities');
+    if ('limit' in options && memo.length >= options.limit) {
+      return memo;
+    }
 
-  const {entities: {[key]: entities = {}} = {}} = state;
+    if ('where' in options && !isMatch(item, options.where)) {
+      return memo;
+    }
 
-  return Object.keys(entities).reduce((memo, id) => {
-    const entity = entities[id];
-
-    return isMatch(entity, criteria) ? [...memo, entity] : memo;
+    return [...memo, item];
   }, []);
+
+  if ('order' in options) {
+    const {order} = options;
+
+    if (Array.isArray(order) && Array.isArray(order[0])) {
+      return orderBy(items, ...unzip(order));
+    }
+
+    return orderBy(items, order);
+  }
+
+  return items;
 }
 
-export function getEntityById(state = {}, key = null, id = null) {
-  if (key === null) throw new Error('Must specify a key to get entity');
-  if (id === null) throw new Error('Must specify an id to get entity');
+export function getEntityById(state = {}, entity, id) {
+  if (!entity) throw new Error('Must specify an entity to get');
+  if (!id) throw new Error('Must specify an id to get');
 
-  const {entities: {[key]: {[id]: entity = null} = {}} = {}} = state;
+  const {
+    entities: {
+      [entity]: {
+        [id]: item = null,
+      } = {},
+    } = {},
+  } = state;
 
-  return entity;
+  return item;
 }
