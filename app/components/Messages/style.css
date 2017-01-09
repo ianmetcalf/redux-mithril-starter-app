@@ -9,8 +9,9 @@
   margin: 0 0 6px;
   padding: 12px;
   width: 300px;
+  min-height: 56px;
   background-color: #030303;
-  background-position: 15px center;
+  background-position: 15px 16px;
   background-repeat: no-repeat;
   border-radius: 3px;
   box-sizing: border-box;
