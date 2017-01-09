@@ -48,7 +48,7 @@ const MessageForm = {
         </div>
 
         <div>
-          {['info', 'success', 'warning', 'error'].map(type =>
+          {['info', 'success', 'warning', 'error'].map(type => (
             <label>
               <input
                 type="radio"
@@ -59,7 +59,7 @@ const MessageForm = {
               />
               {capitalize(type)}
             </label>
-          )}
+          ))}
         </div>
 
         <div>

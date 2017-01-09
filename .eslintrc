@@ -14,7 +14,6 @@
   "rules": {
     "strict": "off",
 
-    "comma-dangle": ["warn", "always-multiline"],
     "no-unused-vars": ["warn", {
       "vars": "local",
       "args": "none"
@@ -26,10 +25,8 @@
     "no-new-require": "error",
     "no-path-concat": "error",
 
-    "max-len": ["error", 100, 2, {
-      "ignoreUrls": true,
-      "ignoreComments": false,
-      "ignoreStrings": true
+    "no-mixed-operators": ["error", {
+      "allowSamePrecedence": true
     }],
     "no-underscore-dangle": ["off"],
     "object-curly-spacing": ["error", "never"],
@@ -38,12 +35,16 @@
       "initialized": "never"
     }],
 
+    "arrow-parens": ["error", "as-needed", {
+      "requireForBlockBody": false
+    }],
     "constructor-super": "error",
     "no-class-assign": "error",
     "no-dupe-class-members": "error",
     "no-this-before-super": "error",
     "template-curly-spacing": ["error", "always"],
 
+    "import/named": "error",
     "import/no-extraneous-dependencies": ["error", {
       "devDependencies": true,
       "optionalDependencies": false
@@ -54,6 +55,9 @@
     "react/prop-types": "off",
     "react/jsx-filename-extension": ["error", {
       "extensions": [".js"]
+    }],
+    "react/jsx-max-props-per-line": ["error", {
+      "maximum": 2
     }],
 
     "jsx-a11y/label-has-for": "off"
