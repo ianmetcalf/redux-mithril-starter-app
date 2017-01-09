@@ -1,2 +1,3 @@
 --compilers js:babel-register,css:./test/helpers/stubStyles.js
+--require ./test/helpers/assertions
 --reporter spec

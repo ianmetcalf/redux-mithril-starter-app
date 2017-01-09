@@ -73,6 +73,8 @@
     "mocha": "^3.0.2",
     "nodemon": "^1.10.2",
     "redux-devtools-extension": "^1.0.0",
+    "redux-mock-store": "^1.2.1",
+    "tmatch": "^3.0.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2"
   }

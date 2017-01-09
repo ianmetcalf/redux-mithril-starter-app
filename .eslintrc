@@ -26,6 +26,11 @@
     "no-new-require": "error",
     "no-path-concat": "error",
 
+    "max-len": ["error", 100, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreStrings": true
+    }],
     "no-underscore-dangle": ["off"],
     "object-curly-spacing": ["error", "never"],
     "one-var": ["error", {
