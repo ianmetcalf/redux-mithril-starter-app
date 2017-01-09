@@ -1,9 +1,18 @@
 import merge from 'lodash/merge';
 
-export default function entities(state = {}, action) {
-  if (!action.error && action.payload && action.payload.entities) {
-    return merge({}, state, action.payload.entities);
+const reducer = (state = {}, action) => {
+  const {
+    payload: {
+      entities = null,
+    } = {},
+    error = false,
+  } = action;
+
+  if (entities && !error) {
+    return merge({}, state, entities);
   }
 
   return state;
-}
+};
+
+export default reducer;

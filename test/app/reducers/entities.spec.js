@@ -2,9 +2,9 @@ import expect from 'expect';
 import freeze from 'deep-freeze';
 import reducer from '../../../app/reducers/entities';
 
-describe('entities reducer', function () {
-  const SOME_ACTION = 'SOME_ACTION';
+const SOME_ACTION = 'SOME_ACTION';
 
+describe('entities reducer', function () {
   it('returns the initial state', function () {
     expect(reducer(undefined, {})).toEqual({});
   });

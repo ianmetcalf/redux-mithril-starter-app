@@ -1,13 +1,16 @@
 import expect from 'expect';
 import freeze from 'deep-freeze';
-import {createReducer} from '../../../app/reducers/helpers';
+
+import {
+  createReducer,
+} from '../../../app/reducers/helpers';
+
+const KNOWN_ACTION = 'KNOWN_ACTION';
+const UNKNOWN_ACTION = 'UNKNOWN_ACTION';
+const UNDEFINED_ACTION = undefined;
 
 describe('reducer helpers', function () {
   describe('#createReducer', function () {
-    const KNOWN_ACTION = 'KNOWN_ACTION';
-    const UNKNOWN_ACTION = 'UNKNOWN_ACTION';
-    const UNDEFINED_ACTION = undefined;
-
     context('when called without action handlers', function () {
       it('throws missing action type error', function () {
         expect(() => createReducer()).toThrow(/no action types found/i);

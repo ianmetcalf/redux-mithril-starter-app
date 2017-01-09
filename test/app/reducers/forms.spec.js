@@ -1,14 +1,18 @@
 import expect from 'expect';
 import freeze from 'deep-freeze';
-import {SET_FORM_FOCUS, SET_FORM_VALUES} from '../../../app/actions';
 import reducer from '../../../app/reducers/forms';
+
+import {
+  SET_FORM_FOCUS,
+  SET_FORM_VALUES,
+} from '../../../app/actions';
 
 describe('forms reducer', function () {
   it('returns the initial state', function () {
     expect(reducer(undefined, {})).toEqual({});
   });
 
-  context('when called with SET_FORM_FOCUS action', function () {
+  context('when called with set focus action', function () {
     it('sets the form focus', function () {
       const state = freeze({
         'some form': {
@@ -37,7 +41,7 @@ describe('forms reducer', function () {
     });
   });
 
-  context('when called with SET_FORM_VALUES action', function () {
+  context('when called with set form action', function () {
     it('sets the form values', function () {
       const state = freeze({
         'some form': {

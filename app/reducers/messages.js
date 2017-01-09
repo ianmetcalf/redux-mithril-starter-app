@@ -1,13 +1,29 @@
 import {createReducer} from './helpers';
-import {SHOW_MESSAGE, CLEAR_MESSAGE, RESET_MESSAGES} from '../actions';
 
-const messages = createReducer([], {
+import {
+  SHOW_MESSAGE,
+  CLEAR_MESSAGE,
+  RESET_MESSAGES,
+} from '../actions';
+
+const reducer = createReducer([], {
   [SHOW_MESSAGE](state, action) {
-    return [...state.filter(item => item.id !== action.payload.id), action.payload];
+    const {
+      payload: message = {},
+    } = action;
+
+    return [
+      ...state.filter(item => item.id !== message.id),
+      message,
+    ];
   },
 
   [CLEAR_MESSAGE](state, action) {
-    return state.filter(item => item.id !== action.payload.id);
+    const {
+      payload: message = {},
+    } = action;
+
+    return state.filter(item => item.id !== message.id);
   },
 
   [RESET_MESSAGES](state, action) {
@@ -15,4 +31,4 @@ const messages = createReducer([], {
   },
 });
 
-export default messages;
+export default reducer;

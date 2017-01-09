@@ -11,7 +11,7 @@ export function createReducer(initialState, handlers = {}) {
 
   if (!count) throw new Error('No action types found while creating reducer');
 
-  return function reducer(state = initialState, action) {
+  return (state = initialState, action) => {
     const handler = handlers[action.type] || handlers[createReducer.DEFAULT];
 
     if (handler) {

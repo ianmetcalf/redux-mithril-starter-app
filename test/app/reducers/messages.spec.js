@@ -1,14 +1,19 @@
 import expect from 'expect';
 import freeze from 'deep-freeze';
-import {SHOW_MESSAGE, CLEAR_MESSAGE, RESET_MESSAGES} from '../../../app/actions';
 import reducer from '../../../app/reducers/messages';
+
+import {
+  SHOW_MESSAGE,
+  CLEAR_MESSAGE,
+  RESET_MESSAGES,
+} from '../../../app/actions';
 
 describe('messages reducer', function () {
   it('returns the initial state', function () {
     expect(reducer(undefined, {})).toEqual([]);
   });
 
-  context('when called with SHOW_MESSAGE action', function () {
+  context('when called with show message action', function () {
     it('adds the message if it does not exist', function () {
       const state = freeze([]);
 
@@ -58,7 +63,7 @@ describe('messages reducer', function () {
     });
   });
 
-  context('when called with CLEAR_MESSAGE action', function () {
+  context('when called with clear message action', function () {
     it('removes the message if it exists', function () {
       const state = freeze([
         {
@@ -109,7 +114,7 @@ describe('messages reducer', function () {
     });
   });
 
-  context('when called with RESET_MESSAGES action', function () {
+  context('when called with reset messages action', function () {
     it('removes all messages', function () {
       const state = freeze([
         {
