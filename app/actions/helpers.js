@@ -7,7 +7,7 @@ export function createFetchAction(type = null, {
   id = `${ method } ${ url }`,
   meta,
   schema,
-  ...options,
+  ...options
 } = {}) {
   if (type === null) throw new Error('Must specify an action type to create fetch action');
   if (typeof url !== 'string') throw new Error(`Must specify a url to create ${ type } action`);

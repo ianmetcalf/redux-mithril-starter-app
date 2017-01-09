@@ -26,7 +26,15 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: `babel-loader?${ JSON.stringify({
+          presets: [
+            ['env', {
+              targets: {
+                browsers: 'last 2 versions',
+              },
+            }],
+          ],
+        }) }`,
       },
       {
         test: /\.css$/,
