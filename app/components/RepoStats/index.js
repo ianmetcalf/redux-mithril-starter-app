@@ -3,11 +3,13 @@ import classNames from 'classnames';
 import styles from './style.css';
 
 const RepoStats = {
-  view({attrs: {
-    className,
-    repo,
-    pending,
-  }}) {
+  view({attrs}) {
+    const {
+      className,
+      repo,
+      pending,
+    } = attrs;
+
     return (
       <div className={classNames(styles.container, className)}>
         <span className={styles.label}>Repo:</span>

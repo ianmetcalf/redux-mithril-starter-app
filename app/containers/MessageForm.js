@@ -8,7 +8,11 @@ import styles from './style.css';
 const FORM_ID = 'message';
 
 const MessageForm = {
-  oninit({attrs: {store}}) {
+  oninit({attrs}) {
+    const {
+      store,
+    } = attrs;
+
     if (!getFormValues(store.getState(), FORM_ID)) {
       store.dispatch(setFormValues(FORM_ID, {
         message: '',
@@ -44,7 +48,12 @@ const MessageForm = {
     };
   },
 
-  view({state: {ctrl}, attrs: {store, className}}) {
+  view({attrs, state: {ctrl}}) {
+    const {
+      store,
+      className,
+    } = attrs;
+
     const state = store.getState();
 
     return (

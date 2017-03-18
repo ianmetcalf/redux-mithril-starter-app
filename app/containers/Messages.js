@@ -6,7 +6,11 @@ import {clearMessage} from '../actions';
 import styles from './style.css';
 
 const Messages = {
-  oninit({attrs: {store}}) {
+  oninit({attrs}) {
+    const {
+      store,
+    } = attrs;
+
     this.ctrl = {
       handleClose(id) {
         store.dispatch(clearMessage(id));
@@ -14,7 +18,12 @@ const Messages = {
     };
   },
 
-  view({state: {ctrl}, attrs: {store, className}}) {
+  view({attrs, state: {ctrl}}) {
+    const {
+      store,
+      className,
+    } = attrs;
+
     const state = store.getState();
 
     return (

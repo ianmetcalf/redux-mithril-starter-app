@@ -4,10 +4,12 @@ import capitalize from 'lodash/capitalize';
 import styles from './style.css';
 
 const MessageForm = {
-  oninit({attrs: {
-    onChange = () => {},
-    onSubmit = () => {},
-  }}) {
+  oninit({attrs}) {
+    const {
+      onChange = () => {},
+      onSubmit = () => {},
+    } = attrs;
+
     this.ctrl = {
       handleChange(e = event) {
         const {name, type, value} = e.currentTarget || this;
@@ -23,11 +25,13 @@ const MessageForm = {
     };
   },
 
-  view({state: {ctrl}, attrs: {
-    className,
-    values,
-    onClearLast,
-  }}) {
+  view({attrs, state: {ctrl}}) {
+    const {
+      className,
+      values,
+      onClearLast,
+    } = attrs;
+
     return (
       <form className={classNames(styles.container, className)}>
         <div>

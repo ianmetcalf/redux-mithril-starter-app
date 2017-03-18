@@ -8,7 +8,12 @@ import styles from './style.css';
 const FETCH_RATE = 90 * 1000;
 
 const RepoStats = {
-  oninit({attrs: {store, repo}}) {
+  oninit({attrs}) {
+    const {
+      store,
+      repo,
+    } = attrs;
+
     const nextFetch = () => {
       store.dispatch(fetchEntityAndShowMessage('repo', {
         id: repo,
@@ -29,7 +34,13 @@ const RepoStats = {
     }
   },
 
-  view({attrs: {store, className, repo}}) {
+  view({attrs}) {
+    const {
+      store,
+      className,
+      repo,
+    } = attrs;
+
     const state = store.getState();
 
     return (
