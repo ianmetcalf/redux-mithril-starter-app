@@ -3,7 +3,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const isDev = NODE_ENV === 'development';
@@ -22,40 +21,44 @@ module.exports = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: `babel-loader?${ JSON.stringify({
+        loader: 'babel-loader',
+        options: {
           presets: [
             ['env', {
               targets: {
                 browsers: 'last 2 versions',
               },
+              modules: false,
             }],
           ],
-        }) }`,
+        },
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', [
-          `css-loader?${ JSON.stringify({
-            modules: true,
-            camelCase: true,
-            importLoaders: 1,
-            localIdentName: isDev ? '[path][name]-[local]-[hash:base64:5]' : '[hash:base64]',
-          }) }`,
-          'postcss-loader',
-        ]),
+        loader: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                camelCase: true,
+                importLoaders: 1,
+                localIdentName: isDev ? '[path][name]-[local]-[hash:base64:5]' : '[hash:base64]',
+              },
+            },
+            {
+              loader: 'postcss-loader',
+            },
+          ],
+          fallback: 'style-loader',
+        }),
       },
     ],
   },
-
-  postcss: [
-    autoprefixer({
-      browsers: ['last 2 versions'],
-    }),
-  ],
 
   plugins: [
     new webpack.DefinePlugin({
@@ -67,8 +70,10 @@ module.exports = {
       fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch',
     }),
     new webpack.optimize.CommonsChunkPlugin({name: 'common'}),
-    new ExtractTextPlugin('[name].css', {
+    new ExtractTextPlugin({
+      filename: '[name].css',
       allChunks: true,
+      ignoreOrder: true,
       disable: isDev,
     }),
   ],

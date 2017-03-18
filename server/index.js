@@ -38,9 +38,9 @@ if (app.get('env') === 'development') {
       [key]: ['webpack-hot-middleware/client'].concat(webpackConfig.entry[key]),
     }), {}),
     plugins: webpackConfig.plugins.concat([
-      new webpack.optimize.OccurenceOrderPlugin(),
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
+      new webpack.NamedModulesPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
     ]),
   }));
 
