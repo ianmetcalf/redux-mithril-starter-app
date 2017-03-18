@@ -27,9 +27,9 @@ const MessageForm = {
 
   view({attrs, state: {ctrl}}) {
     const {
-      className,
-      values,
-      onClearLast,
+      className = '',
+      values = {},
+      onClearLast = () => {},
     } = attrs;
 
     return (

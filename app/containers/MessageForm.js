@@ -55,11 +55,12 @@ const MessageForm = {
     } = attrs;
 
     const state = store.getState();
+    const formValues = getFormValues(state, FORM_ID) || {};
 
     return (
       <MessageFormComponent
         className={classNames(styles.messageForm, className)}
-        values={getFormValues(state, FORM_ID) || {}}
+        values={formValues}
         onChange={ctrl.handleChange}
         onSubmit={ctrl.handleSubmit}
         onClearLast={ctrl.handleClearLast}

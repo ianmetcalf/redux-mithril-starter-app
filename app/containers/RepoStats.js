@@ -42,12 +42,14 @@ const RepoStats = {
     } = attrs;
 
     const state = store.getState();
+    const loading = isRequesting(state, repo);
+    const values = getEntityById(state, 'repos', repo);
 
     return (
       <RepoStatsComponent
         className={classNames(styles.repoStats, className)}
-        repo={getEntityById(state, 'repos', repo)}
-        pending={isRequesting(state, repo)}
+        loading={loading}
+        values={values}
       />
     );
   },

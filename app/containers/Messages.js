@@ -25,11 +25,12 @@ const Messages = {
     } = attrs;
 
     const state = store.getState();
+    const messages = getMessages(state) || [];
 
     return (
       <MessagesComponent
         className={classNames(styles.messages, className)}
-        messages={getMessages(state)}
+        messages={messages}
         onClose={ctrl.handleClose}
       />
     );

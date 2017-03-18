@@ -5,8 +5,8 @@ import styles from './style.css';
 const Messages = {
   view({attrs}) {
     const {
-      className,
-      messages,
+      className = '',
+      messages = [],
       onClose = () => {},
     } = attrs;
 

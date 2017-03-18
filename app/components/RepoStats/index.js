@@ -5,31 +5,38 @@ import styles from './style.css';
 const RepoStats = {
   view({attrs}) {
     const {
-      className,
-      repo,
-      pending,
+      className = '',
+      loading = false,
+      values = null,
     } = attrs;
+
+    const {
+      forks_count: forksCount,
+      stargazers_count: stargazersCount,
+      open_issues_count: openIssuesCount,
+    } = values || {};
 
     return (
       <div className={classNames(styles.container, className)}>
         <span className={styles.label}>Repo:</span>
-        {repo ?
+
+        {!values ?
+          <span>{loading ? 'Loading...' : 'Stats not available'}</span>
+        :
           <ul>
             <li>
-              <span className={styles.stat}>{repo.forks_count}</span>
-              {repo.forks_count === 1 ? 'Fork' : 'Forks'}
+              <span className={styles.stat}>{forksCount}</span>
+              {forksCount === 1 ? 'Fork' : 'Forks'}
             </li>
             <li>
-              <span className={styles.stat}>{repo.stargazers_count}</span>
-              {repo.stargazers_count === 1 ? 'Star' : 'Stars'}
+              <span className={styles.stat}>{stargazersCount}</span>
+              {stargazersCount === 1 ? 'Star' : 'Stars'}
             </li>
             <li>
-              <span className={styles.stat}>{repo.open_issues_count}</span>
-              {repo.open_issues_count === 1 ? 'Issue' : 'Issues'}
+              <span className={styles.stat}>{openIssuesCount}</span>
+              {openIssuesCount === 1 ? 'Issue' : 'Issues'}
             </li>
           </ul>
-        :
-          <span>{pending ? 'Loading...' : 'Stats not available'}</span>
         }
       </div>
     );
