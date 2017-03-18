@@ -3,8 +3,11 @@
 
   "plugins": [
     ["transform-react-jsx", {
-      "pragma": "m"
+      "pragma": "m",
+      "useBuiltIns": true
     }],
-    "transform-object-rest-spread"
+    ["transform-object-rest-spread", {
+      "useBuiltIns": true
+    }],
   ]
 }

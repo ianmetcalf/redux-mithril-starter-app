@@ -14,16 +14,8 @@
   "rules": {
     "strict": "off",
 
-    "no-unused-vars": ["warn", {
-      "vars": "local",
-      "args": "none"
-    }],
-    "no-use-before-define": ["error", "nofunc"],
-
     "handle-callback-err": "error",
     "no-mixed-requires": "error",
-    "no-new-require": "error",
-    "no-path-concat": "error",
 
     "no-mixed-operators": ["error", {
       "allowSamePrecedence": true
@@ -34,14 +26,17 @@
       "uninitialized": "always",
       "initialized": "never"
     }],
+    "one-var-declaration-per-line": ["error", "initializations"],
+
+    "no-unused-vars": ["warn", {
+      "vars": "local",
+      "args": "none"
+    }],
+    "no-use-before-define": ["error", "nofunc"],
 
     "arrow-parens": ["error", "as-needed", {
       "requireForBlockBody": false
     }],
-    "constructor-super": "error",
-    "no-class-assign": "error",
-    "no-dupe-class-members": "error",
-    "no-this-before-super": "error",
     "template-curly-spacing": ["error", "always"],
 
     "import/named": "error",
