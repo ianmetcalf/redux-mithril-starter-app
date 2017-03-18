@@ -8,34 +8,28 @@ import styles from './style.css';
 const FETCH_RATE = 90 * 1000;
 
 const RepoStats = {
-  controller(attrs) {
-    const {dispatch} = attrs.store;
-
-    let timeout = null;
-
-    function nextFetch() {
-      dispatch(fetchEntityAndShowMessage('repo', {
-        id: attrs.repo,
+  oninit({attrs: {store, repo}}) {
+    const nextFetch = () => {
+      store.dispatch(fetchEntityAndShowMessage('repo', {
+        id: repo,
       }))
 
       .then(() => {
-        timeout = setTimeout(nextFetch, FETCH_RATE);
+        this.timeout = setTimeout(nextFetch, FETCH_RATE);
       });
-    }
+    };
 
     nextFetch();
-
-    return {
-      onunload() {
-        if (!timeout) return;
-
-        clearTimeout(timeout);
-        timeout = null;
-      },
-    };
   },
 
-  view(ctrl, {store, className, repo}) {
+  onremove() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
+    }
+  },
+
+  view({attrs: {store, className, repo}}) {
     const state = store.getState();
 
     return (

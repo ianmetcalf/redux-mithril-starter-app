@@ -8,45 +8,43 @@ import styles from './style.css';
 const FORM_ID = 'message';
 
 const MessageForm = {
-  controller(attrs) {
-    const {getState, dispatch} = attrs.store;
-
-    if (!getFormValues(getState(), FORM_ID)) {
-      dispatch(setFormValues(FORM_ID, {
+  oninit({attrs: {store}}) {
+    if (!getFormValues(store.getState(), FORM_ID)) {
+      store.dispatch(setFormValues(FORM_ID, {
         message: '',
         type: 'info',
         duration: 0,
       }));
     }
 
-    return {
+    this.ctrl = {
       handleChange(name, value) {
-        dispatch(setFormValues(FORM_ID, {
-          ...getFormValues(getState(), FORM_ID),
+        store.dispatch(setFormValues(FORM_ID, {
+          ...getFormValues(store.getState(), FORM_ID),
           [name]: value,
         }));
       },
 
       handleSubmit() {
-        const {message, type, duration} = getFormValues(getState(), FORM_ID);
+        const {message, type, duration} = getFormValues(store.getState(), FORM_ID);
 
         if (message) {
-          dispatch(showMessage({body: message, type, duration}));
+          store.dispatch(showMessage({body: message, type, duration}));
         }
       },
 
       handleClearLast() {
-        const messages = getMessages(getState());
+        const messages = getMessages(store.getState());
         const last = messages[messages.length - 1];
 
         if (last) {
-          dispatch(clearMessage(last.id));
+          store.dispatch(clearMessage(last.id));
         }
       },
     };
   },
 
-  view(ctrl, {store, className}) {
+  view({state: {ctrl}, attrs: {store, className}}) {
     const state = store.getState();
 
     return (

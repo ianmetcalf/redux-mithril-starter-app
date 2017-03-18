@@ -3,7 +3,11 @@ import classNames from 'classnames';
 import styles from './style.css';
 
 const Messages = {
-  view(ctrl, {className, messages, onClose = () => {}}) {
+  view({attrs: {
+    className,
+    messages,
+    onClose = () => {},
+  }}) {
     return (
       <div className={classNames(styles.container, className)}>
         {messages.map(item => (

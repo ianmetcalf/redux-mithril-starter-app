@@ -2,9 +2,8 @@
   "presets": ["env"],
 
   "plugins": [
-    ["mjsx", {
-      "jsxCompliant": false,
-      "warnDeprecatedHtml": true
+    ["transform-react-jsx", {
+      "pragma": "m"
     }],
     "transform-object-rest-spread"
   ]

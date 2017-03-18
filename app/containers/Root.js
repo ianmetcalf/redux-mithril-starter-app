@@ -4,7 +4,7 @@ import Messages from './Messages';
 import RepoStats from './RepoStats';
 
 const Root = {
-  view(ctrl, attrs) {
+  view({attrs}) {
     return (
       <div>
         <RepoStats {...attrs} repo="ianmetcalf/redux-mithril-starter-app" />

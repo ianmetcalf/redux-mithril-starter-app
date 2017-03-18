@@ -4,8 +4,11 @@ import capitalize from 'lodash/capitalize';
 import styles from './style.css';
 
 const MessageForm = {
-  controller({onChange = () => {}, onSubmit = () => {}}) {
-    return {
+  oninit({attrs: {
+    onChange = () => {},
+    onSubmit = () => {},
+  }}) {
+    this.ctrl = {
       handleChange(e = event) {
         const {name, type, value} = e.currentTarget || this;
 
@@ -20,7 +23,11 @@ const MessageForm = {
     };
   },
 
-  view(ctrl, {className, values, onClearLast}) {
+  view({state: {ctrl}, attrs: {
+    className,
+    values,
+    onClearLast,
+  }}) {
     return (
       <form className={classNames(styles.container, className)}>
         <div>

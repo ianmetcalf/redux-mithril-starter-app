@@ -1,4 +1,3 @@
-import m from 'mithril';
 import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
@@ -18,8 +17,6 @@ if (process.env.NODE_ENV === 'development') {
 
 export function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, enhancer);
-
-  store.subscribe(m.redraw);
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
