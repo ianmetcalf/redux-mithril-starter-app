@@ -31,18 +31,9 @@ app.use('/', routes);
 /* eslint-disable global-require */
 if (app.get('env') === 'development') {
   const webpack = require('webpack');
-  const webpackConfig = require('../webpack.config');
+  const webpackConfig = require('../webpack.dev.config');
 
-  const compiler = webpack(Object.assign(webpackConfig, {
-    entry: Object.keys(webpackConfig.entry).reduce((memo, key) => Object.assign(memo, {
-      [key]: ['webpack-hot-middleware/client'].concat(webpackConfig.entry[key]),
-    }), {}),
-    plugins: webpackConfig.plugins.concat([
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NamedModulesPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
-    ]),
-  }));
+  const compiler = webpack(webpackConfig);
 
   app.use(require('webpack-dev-middleware')(compiler, {
     publicPath: webpackConfig.output.publicPath,
