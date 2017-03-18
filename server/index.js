@@ -7,29 +7,29 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const viewHelpers = require('./views/helpers');
-const routes = require('./routes/index');
 
 const app = express();
+
+const isDev = app.get('env') === 'development';
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // Only use the hashed assets when not running in development
-if (app.get('env') !== 'development') {
-  // eslint-disable-next-line global-require, import/no-unresolved
-  viewHelpers.assets(require('../assets.json'));
-}
+// eslint-disable-next-line global-require, import/no-unresolved
+if (!isDev) viewHelpers.assets(require('../assets.json'));
 
-app.use(logger('dev'));
+app.use(logger(isDev ? 'dev' : 'common'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(compression());
 
-app.use('/', routes);
+// setup routes for app
+app.use('/', require('./routes/index'));
 
 /* eslint-disable global-require */
-if (app.get('env') === 'development') {
+if (isDev) {
   const webpack = require('webpack');
   const webpackConfig = require('../webpack.dev.config');
 
@@ -43,6 +43,7 @@ if (app.get('env') === 'development') {
 }
 /* eslint-enable global-require */
 
+// setup static assets
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // catch 404 and forward to error handler
@@ -52,27 +53,12 @@ app.use((req, res, next) => {
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err,
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
+// error handler
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {},
+  res.status(err.status || 500).render('error', {
+    message: err.message || 'Server Error',
+    error: isDev ? err : {},
+    layout: false,
   });
 });
 
