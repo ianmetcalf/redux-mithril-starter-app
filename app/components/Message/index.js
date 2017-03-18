@@ -2,7 +2,7 @@ import m from 'mithril';
 import classNames from 'classnames';
 import styles from './style.css';
 
-const Messages = {
+const Message = {
   view({attrs}) {
     const {
       className = '',
@@ -28,4 +28,4 @@ const Messages = {
   },
 };
 
-export default Messages;
+export default Message;

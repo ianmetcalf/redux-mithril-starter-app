@@ -1,11 +1,11 @@
 import m from 'mithril';
 import classNames from 'classnames';
-import MessagesComponent from '../components/Messages';
+import MessageComponent from '../components/Message';
 import {getMessages} from '../selectors';
 import {clearMessage} from '../actions';
 import styles from './style.css';
 
-const Messages = {
+const Message = {
   oninit({attrs}) {
     const {
       store,
@@ -28,7 +28,7 @@ const Messages = {
     const messages = getMessages(state) || [];
 
     return (
-      <MessagesComponent
+      <MessageComponent
         className={classNames(styles.messages, className)}
         messages={messages}
         onClose={ctrl.handleClose}
@@ -37,4 +37,4 @@ const Messages = {
   },
 };
 
-export default Messages;
+export default Message;

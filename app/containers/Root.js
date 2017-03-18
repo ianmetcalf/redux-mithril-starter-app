@@ -1,6 +1,6 @@
 import m from 'mithril';
 import MessageForm from './MessageForm';
-import Messages from './Messages';
+import Message from './Message';
 import RepoStats from './RepoStats';
 
 const Root = {
@@ -9,7 +9,7 @@ const Root = {
       <div>
         <RepoStats {...attrs} repo="ianmetcalf/redux-mithril-starter-app" />
         <MessageForm {...attrs} />
-        <Messages {...attrs} />
+        <Message {...attrs} />
       </div>
     );
   },
