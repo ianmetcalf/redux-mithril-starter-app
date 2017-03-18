@@ -59,7 +59,7 @@ const MessageForm = {
 
     return (
       <MessageFormComponent
-        className={classNames(styles.messageForm, className)}
+        className={classNames(styles.messageFormContainer, className)}
         values={formValues}
         onChange={ctrl.handleChange}
         onSubmit={ctrl.handleSubmit}

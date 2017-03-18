@@ -29,7 +29,7 @@ const Message = {
 
     return (
       <MessageComponent
-        className={classNames(styles.messages, className)}
+        className={classNames(styles.messageContainer, className)}
         messages={messages}
         onClose={ctrl.handleClose}
       />

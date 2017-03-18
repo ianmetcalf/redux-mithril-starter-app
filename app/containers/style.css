@@ -1,5 +1,5 @@
-.repo-stats,
-.message-form {
+.repo-stats-container,
+.message-form-container {
   width: 300px;
   margin: 20px;
   padding: 12px;
@@ -8,7 +8,7 @@
   background-color: #fff;
 }
 
-.messages {
+.message-container {
   position: fixed;
   top: 12px;
   right: 12px;

@@ -47,7 +47,7 @@ const RepoStats = {
 
     return (
       <RepoStatsComponent
-        className={classNames(styles.repoStats, className)}
+        className={classNames(styles.repoStatsContainer, className)}
         loading={loading}
         values={values}
       />
