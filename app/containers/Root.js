@@ -1,7 +1,7 @@
 import m from 'mithril';
+import RepoStats from './RepoStats';
 import MessageForm from './MessageForm';
 import Message from './Message';
-import RepoStats from './RepoStats';
 
 const Root = {
   view({attrs}) {
